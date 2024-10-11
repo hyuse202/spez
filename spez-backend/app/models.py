@@ -12,7 +12,6 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import relationship
-import enum
 from .database import Base
 
 class User(Base):
@@ -25,8 +24,8 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     posts = relationship('Post', back_populates='author', cascade="all, delete-orphan")
-    comments = relationship('Comment', back_populates='author', cascade="all, delete-orphan")
-    likes = relationship('Like', back_populates='user', cascade="all, delete-orphan")
+    # comments = relationship('Comment', back_populates='author', cascade="all, delete-orphan")
+    # likes = relationship('Like', back_populates='user', cascade="all, delete-orphan")
 
 
 class Post(Base):
@@ -40,8 +39,8 @@ class Post(Base):
     author_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     author = relationship('User', back_populates='posts')
-    comments = relationship('Comment', back_populates='post', cascade="all, delete-orphan")
-    likes = relationship('Like', back_populates='post', cascade="all, delete-orphan")
+    # comments = relationship('Comment', back_populates='post', cascade="all, delete-orphan")
+    # likes = relationship('Like', back_populates='post', cascade="all, delete-orphan")
 
 
 # class Comment(Base):
