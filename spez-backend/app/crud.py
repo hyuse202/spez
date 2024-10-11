@@ -22,7 +22,6 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
         email=user.email,
         hashed_password=hashed_password
     )
-    print(db_user)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -42,3 +41,62 @@ def create_post(db: Session, post: schemas.PostCreate, user_id: int) -> models.P
     db.commit()
     db.refresh(db_post)
     return db_post
+
+# -------------------- Comment CRUD --------------------
+
+def get_comment(db: Session, comment_id: int) -> Optional[models.Comment]:
+    return db.query(models.Comment).filter(models.Comment.id == comment_id).first()
+
+def get_comments_by_post(db: Session, post_id: int, skip: int = 0, limit: int = 10) -> List[models.Comment]:
+    return db.query(models.Comment).filter(models.Comment.post_id == post_id).offset(skip).limit(limit).all()
+
+def create_comment(db: Session, comment: schemas.CommentCreate, user_id: int, post_id: int) -> models.Comment:
+    db_comment = models.Comment(
+        content=comment.content,
+        post_id=post_id,
+        # parent_id=comment.parent_id,
+        author_id=user_id
+    )
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+def update_comment(db: Session, db_comment: models.Comment, updates: schemas.CommentUpdate) -> models.Comment:
+    if updates.content is not None:
+        db_comment.content = updates.content
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+def delete_comment(db: Session, comment_id: int):
+    db_comment = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
+    if not db_comment:
+        return None
+    db.delete(db_comment)
+    db.commit()
+
+# -------------------- Like CRUD --------------------
+
+# def create_like(db: Session, like: schemas.LikeCreate) -> models.Like:
+#     db_like = models.Like(
+#         user_id=like.user_id,
+#         post_id=like.post_id,
+#         comment_id=like.comment_id
+#     )
+#     db.add(db_like)
+#     db.commit()
+#     db.refresh(db_like)
+#     return db_like
+
+# def delete_like(db: Session, db_like: models.Like):
+#     db.delete(db_like)
+#     db.commit()
+
+# def get_like(db: Session, user_id: int, post_id: Optional[int] = None, comment_id: Optional[int] = None) -> Optional[models.Like]:
+#     query = db.query(models.Like).filter(models.Like.user_id == user_id)
+#     if post_id:
+#         query = query.filter(models.Like.post_id == post_id)
+#     if comment_id:
+#         query = query.filter(models.Like.comment_id == comment_id)
+#     return query.first()

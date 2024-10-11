@@ -33,33 +33,33 @@ class PostOut(BaseModel):
     class Config:
         orm_mode = True
 
-# class CommentBase(BaseModel):
-#     content: str
+class CommentBase(BaseModel):
+    content: str
 
-# class CommentCreate(CommentBase):
-#     post_id: int
-#     parent_id: Optional[int] = None  # For nested comments
+class CommentCreate(CommentBase):
+    post_id: int
+    # parent_id: Optional[int] = None  # For nested comments
 
-# class CommentUpdate(BaseModel):
-#     content: Optional[str] = None
+class CommentUpdate(BaseModel):
+    content: Optional[str] = None
 
-# class CommentOut(CommentBase):
-#     id: int
-#     created_at: datetime
-#     updated_at: Optional[datetime]
-#     author: UserOut
-#     post_id: int
-#     parent_id: Optional[int]
-#     replies: List['CommentOut'] = []  # Recursive relationship
-#     likes_count: int
+class CommentOut(CommentBase):
+    id: int
+    created_at: datetime
+    updated_at: Optional[datetime]
+    author: UserOut
+    post_id: int
+    # parent_id: Optional[int]
+    # replies: List['CommentOut'] = []  # Recursive relationship
+    # likes_count: int
 
-#     class Config:
-#         orm_mode = True
+    class Config:
+        orm_mode = True
 
-# # To resolve forward references
-# CommentOut.update_forward_refs()
+# To resolve forward references
+CommentOut.update_forward_refs()
 
-# # -------------------- Like Schemas --------------------
+# -------------------- Like Schemas --------------------
 
 # class LikeBase(BaseModel):
 #     pass  # No fields required for base

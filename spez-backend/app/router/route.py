@@ -48,31 +48,44 @@ def read_post(post_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Post not found")
     return db_post
 
-# # -------------------- Comment Endpoints --------------------
+# -------------------- Comment Endpoints --------------------
 
-# @router.post("/comments/", response_model=schemas.CommentOut, status_code=status.HTTP_201_CREATED)
-# def create_comment(comment: schemas.CommentCreate, user_id: int, db: Session = Depends(get_db)):
-#     db_user = crud.get_user_by_id(db, user_id=user_id)
-#     if not db_user:
-#         raise HTTPException(status_code=404, detail="User not found")
-#     # Optionally, verify that post_id exists
-#     db_post = crud.get_post(db, post_id=comment.post_id)
-#     if not db_post:
-#         raise HTTPException(status_code=404, detail="Post not found")
-#     if comment.parent_id:
-#         db_parent = crud.get_comment(db, comment_id=comment.parent_id)
-#         if not db_parent:
-#             raise HTTPException(status_code=404, detail="Parent comment not found")
-#     db_comment = crud.create_comment(db, comment, user_id)
-#     return db_comment
+@router.post("/comments/", response_model=schemas.CommentOut, status_code=status.HTTP_201_CREATED)
+def create_comment(comment: schemas.CommentCreate, user_id: int, post_id: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_id(db, user_id=user_id)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    # Optionally, verify that post_id exists
+    db_post = crud.get_post(db, post_id=post_id)
+    if not db_post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    # if comment.parent_id:
+    #     db_parent = crud.get_comment(db, comment_id=comment.parent_id)
+    #     if not db_parent:
+    #         raise HTTPException(status_code=404, detail="Parent comment not found")
+    db_comment = crud.create_comment(db, comment, user_id, post_id)
+    return db_comment
 
-# @router.get("/comments/{comment_id}", response_model=schemas.CommentOut)
-# def read_comment(comment_id: int, db: Session = Depends(get_db)):
-#     db_comment = crud.get_comment(db, comment_id=comment_id)
-#     if not db_comment:
-#         raise HTTPException(status_code=404, detail="Comment not found")
-#     return db_comment
+@router.get("/comments/{comment_id}", response_model=schemas.CommentOut)
+def read_comment(comment_id: int, db: Session = Depends(get_db)):
+    db_comment = crud.get_comment(db, comment_id=comment_id)
+    if not db_comment:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    return db_comment
+@router.get("/comments/{post_id}", response_model=schemas.CommentOut)
+def read_comments(poster_id: int, db: Session = Depends(get_db)):
+    db_post = crud.get_post(db, post_id=poster_id)
+    if not db_post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    db_comments = crud.get_comments_by_post(db, post_id=poster_id)
+    return db_comments
 
+@router.delete("/comments/{comment_id}", response_model=schemas.CommentOut)
+def delete_comment(comment_id: int, db: Session = Depends(get_db)):
+    db_item = crud.delete_comment(db=db, comment_id=comment_id)
+    if db_item is None:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    return db_item
 # # -------------------- Like Endpoints --------------------
 
 # @router.post("/likes/", response_model=schemas.LikeOut, status_code=status.HTTP_201_CREATED)
@@ -108,6 +121,14 @@ def read_post(post_id: int, db: Session = Depends(get_db)):
     
 #     db_like = crud.create_like(db, like, user_id)
 #     return db_like
+# @router.delete("/likes/{like_id}", status_code=status.HTTP_204_NO_CONTENT)
+# def delete_like(like_id: int, db: Session = Depends(get_db)):
+#     db_like = db.query(models.Like).filter(models.Like.id == like_id).first()
+#     if not db_like:
+#         raise HTTPException(status_code=404, detail="Like not found")
+#     crud.delete_like(db, db_like)
+#     return
+
 
 # -------------------- Additional Endpoints --------------------
 
