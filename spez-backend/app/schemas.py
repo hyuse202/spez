@@ -83,3 +83,8 @@ CommentOut.update_forward_refs()
 
 #     class Config:
 #         orm_mode = True
+# class PaginatedComments(BaseModel):
+#     total: int
+#     skip: int
+#     limit: int
+#     comments: List[CommentOut]

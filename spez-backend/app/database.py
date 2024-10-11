@@ -11,7 +11,6 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 # Create the SQLAlchemy engine
 if DATABASE_URL is None:
     raise ValueError("DATABASE_URL environment variable is not set.")
-print('ss')
 engine = create_engine( DATABASE_URL,  
                         pool_size=20,          
                         max_overflow=0,       

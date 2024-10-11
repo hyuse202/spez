@@ -1,6 +1,7 @@
 # app/crud.py
 
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from . import models, schemas
 from typing import List, Optional
 from passlib.context import CryptContext
@@ -30,6 +31,7 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
 # -------------------- Post CRUD --------------------
 
 def get_post(db: Session, post_id: int) -> Optional[models.Post]:
+    print("aaa")
     return db.query(models.Post).filter(models.Post.id == post_id).first()
 
 def get_posts(db: Session, skip: int = 0, limit: int = 10) -> List[models.Post]:
@@ -48,7 +50,8 @@ def get_comment(db: Session, comment_id: int) -> Optional[models.Comment]:
     return db.query(models.Comment).filter(models.Comment.id == comment_id).first()
 
 def get_comments_by_post(db: Session, post_id: int, skip: int = 0, limit: int = 10) -> List[models.Comment]:
-    return db.query(models.Comment).filter(models.Comment.post_id == post_id).offset(skip).limit(limit).all()
+     return db.query(models.Comment).filter(models.Post.id == post_id).offset(skip).limit(limit).all()
+    
 
 def create_comment(db: Session, comment: schemas.CommentCreate, user_id: int, post_id: int) -> models.Comment:
     db_comment = models.Comment(

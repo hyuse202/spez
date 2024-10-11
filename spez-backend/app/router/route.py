@@ -1,6 +1,6 @@
 # app/main.py
 
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status, APIRouter, Query
 from sqlalchemy.orm import Session
 from typing import List
 from .. import  schemas, crud
@@ -72,13 +72,16 @@ def read_comment(comment_id: int, db: Session = Depends(get_db)):
     if not db_comment:
         raise HTTPException(status_code=404, detail="Comment not found")
     return db_comment
-@router.get("/comments/{post_id}", response_model=schemas.CommentOut)
-def read_comments(poster_id: int, db: Session = Depends(get_db)):
-    db_post = crud.get_post(db, post_id=poster_id)
-    if not db_post:
-        raise HTTPException(status_code=404, detail="Post not found")
-    db_comments = crud.get_comments_by_post(db, post_id=poster_id)
-    return db_comments
+@router.get("/posts/cmt/{post_id}", response_model=List[schemas.CommentOut])
+def read_comments(
+    post_id: int, 
+    skip: int = Query(0, ge=0, description="Number of records to skip"),
+    limit: int = Query(10, ge=1, le=100, description="Maximum number of records to return"), 
+    db: Session = Depends(get_db)
+):
+    comments = crud.get_comments_by_post(db, post_id=post_id, skip=skip, limit=limit)
+    # paginated_comments = schemas.PaginatedComments(total=total, skip=skip, limit=limit, comments=comments)
+    return comments
 
 @router.delete("/comments/{comment_id}", response_model=schemas.CommentOut)
 def delete_comment(comment_id: int, db: Session = Depends(get_db)):
