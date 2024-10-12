@@ -31,7 +31,6 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
 # -------------------- Post CRUD --------------------
 
 def get_post(db: Session, post_id: int) -> Optional[models.Post]:
-    print("aaa")
     return db.query(models.Post).filter(models.Post.id == post_id).first()
 
 def get_posts(db: Session, skip: int = 0, limit: int = 10) -> List[models.Post]:
@@ -81,25 +80,24 @@ def delete_comment(db: Session, comment_id: int):
 
 # -------------------- Like CRUD --------------------
 
-# def create_like(db: Session, like: schemas.LikeCreate) -> models.Like:
-#     db_like = models.Like(
-#         user_id=like.user_id,
-#         post_id=like.post_id,
-#         comment_id=like.comment_id
-#     )
-#     db.add(db_like)
-#     db.commit()
-#     db.refresh(db_like)
-#     return db_like
+def create_like(db: Session, like: schemas.LikeCreate) -> models.Like:
+    db_like = models.Like(
+        user_id=like.user_id,
+        post_id=like.post_id,
+        comment_id=like.comment_id
+    )
+    db.add(db_like)
+    db.commit()
+    db.refresh(db_like)
+    return db_like
 
-# def delete_like(db: Session, db_like: models.Like):
-#     db.delete(db_like)
-#     db.commit()
+def delete_like(db: Session, like_id: int):
+    db_like = db.query(models.Like).filter(models.Like.id == like_id).first()
+    if not db_like: 
+        return None
+    db.delete(db_like)
+    db.commit()
 
-# def get_like(db: Session, user_id: int, post_id: Optional[int] = None, comment_id: Optional[int] = None) -> Optional[models.Like]:
-#     query = db.query(models.Like).filter(models.Like.user_id == user_id)
-#     if post_id:
-#         query = query.filter(models.Like.post_id == post_id)
-#     if comment_id:
-#         query = query.filter(models.Like.comment_id == comment_id)
-#     return query.first()
+def get_like_by_post(db: Session, post_id: int) -> Optional[models.Like]:
+    return db.query(models.Like).filter(models.Like.post_id == post_id).all()
+    

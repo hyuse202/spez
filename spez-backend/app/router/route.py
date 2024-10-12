@@ -91,46 +91,46 @@ def delete_comment(comment_id: int, db: Session = Depends(get_db)):
     return db_item
 # # -------------------- Like Endpoints --------------------
 
-# @router.post("/likes/", response_model=schemas.LikeOut, status_code=status.HTTP_201_CREATED)
-# def create_like(like: schemas.LikeCreate, user_id: int, db: Session = Depends(get_db)):
-#     # Ensure that either post_id or comment_id is provided
-#     if not like.post_id and not like.comment_id:
-#         raise HTTPException(status_code=400, detail="Either post_id or comment_id must be provided")
+@router.post("/likes/", response_model=schemas.LikeOut, status_code=status.HTTP_201_CREATED)
+def create_like(like: schemas.LikeCreate, db: Session = Depends(get_db)):
+    # Ensure that either post_id or comment_id is provided
+    # if not like.post_id and not like.comment_id:
+    #     raise HTTPException(status_code=400, detail="Either post_id or comment_id must be provided")
     
-#     # Ensure the target exists
-#     if like.post_id:
-#         db_post = crud.get_post(db, post_id=like.post_id)
-#         if not db_post:
-#             raise HTTPException(status_code=404, detail="Post not found")
-#     if like.comment_id:
-#         db_comment = crud.get_comment(db, comment_id=like.comment_id)
-#         if not db_comment:
-#             raise HTTPException(status_code=404, detail="Comment not found")
+    # # Ensure the target exists
+    # if like.post_id:
+    #     db_post = crud.get_post(db, post_id=like.post_id)
+    #     if not db_post:
+    #         raise HTTPException(status_code=404, detail="Post not found")
+    # if like.comment_id:
+    #     db_comment = crud.get_comment(db, comment_id=like.comment_id)
+    #     if not db_comment:
+    #         raise HTTPException(status_code=404, detail="Comment not found")
     
-#     # Check if the user has already liked the target
-#     if like.post_id:
-#         existing_like = db.query(models.Like).filter(
-#             models.Like.user_id == user_id,
-#             models.Like.post_id == like.post_id
-#         ).first()
-#     else:
-#         existing_like = db.query(models.Like).filter(
-#             models.Like.user_id == user_id,
-#             models.Like.comment_id == like.comment_id
-#         ).first()
+    # # Check if the user has already liked the target
+    # if like.post_id:
+    #     existing_like = db.query(models.Like).filter(
+    #         models.Like.user_id == user_id,
+    #         models.Like.post_id == like.post_id
+    #     ).first()
+    # else:
+    #     existing_like = db.query(models.Like).filter(
+    #         models.Like.user_id == user_id,
+    #         models.Like.comment_id == like.comment_id
+    #     ).first()
     
-#     if existing_like:
-#         raise HTTPException(status_code=400, detail="Like already exists")
+    # if existing_like:
+    #     raise HTTPException(status_code=400, detail="Like already exists")
     
-#     db_like = crud.create_like(db, like, user_id)
-#     return db_like
-# @router.delete("/likes/{like_id}", status_code=status.HTTP_204_NO_CONTENT)
-# def delete_like(like_id: int, db: Session = Depends(get_db)):
-#     db_like = db.query(models.Like).filter(models.Like.id == like_id).first()
-#     if not db_like:
-#         raise HTTPException(status_code=404, detail="Like not found")
-#     crud.delete_like(db, db_like)
-#     return
+    db_like = crud.create_like(db, like)
+    return db_like
+@router.delete("/likes/{like_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_like(like_id: int, db: Session = Depends(get_db)):
+    # db_like = db.query(models.Like).filter(models.Like.id == like_id).first()
+    # if not db_like:
+    #     raise HTTPException(status_code=404, detail="Like not found")
+    crud.delete_like(db, like_id)
+    return
 
 
 # -------------------- Additional Endpoints --------------------

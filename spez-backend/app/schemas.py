@@ -51,7 +51,7 @@ class CommentOut(CommentBase):
     post_id: int
     # parent_id: Optional[int]
     # replies: List['CommentOut'] = []  # Recursive relationship
-    # likes_count: int
+    likes_count: int
 
     class Config:
         orm_mode = True
@@ -62,29 +62,26 @@ CommentOut.update_forward_refs()
 # -------------------- Like Schemas --------------------
 
 # class LikeBase(BaseModel):
-#     pass  # No fields required for base
-
-# class LikeCreate(BaseModel):
-#     post_id: Optional[int] = None
-#     comment_id: Optional[int] = None
-
-#     @classmethod
-#     def validate_like(cls, **data):
-#         if not data.get('post_id') and not data.get('comment_id'):
-#             raise ValueError("Either post_id or comment_id must be provided")
-#         return cls(**data)
-
-# class LikeOut(BaseModel):
-#     id: int
 #     user_id: int
-#     post_id: Optional[int]
-#     comment_id: Optional[int]
-#     created_at: datetime
+ 
 
-#     class Config:
-#         orm_mode = True
-# class PaginatedComments(BaseModel):
-#     total: int
-#     skip: int
-#     limit: int
-#     comments: List[CommentOut]
+class LikeCreate(BaseModel):
+    user_id: int
+    post_id: Optional[int]
+    comment_id: Optional[int] 
+    @classmethod
+    def validate_like(cls, **data):
+        if not data.get('post_id') and not data.get('comment_id'):
+            raise ValueError("Either post_id or comment_id must be provided")
+        return cls(**data)
+
+class LikeOut(BaseModel):
+    id: int
+    user_id: int
+    post_id: Optional[int]
+    comment_id: Optional[int]
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+

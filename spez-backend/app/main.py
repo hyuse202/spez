@@ -10,7 +10,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Spez api",
     description="SPez app",
-    version="0.1.2",
+    version="0.2.0",
 )
 
 # Include the items router
