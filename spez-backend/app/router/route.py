@@ -5,7 +5,10 @@ from sqlalchemy.orm import Session
 from typing import List
 from .. import  schemas, crud
 from ..database import  get_db
-
+from ..auth import create_access_token, authenticate_user, get_current_user
+from fastapi.security import OAuth2PasswordRequestForm
+from datetime import timedelta
+from .. import auth, models
 router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
@@ -133,6 +136,30 @@ def delete_like(like_id: int, db: Session = Depends(get_db)):
     return
 
 
-# -------------------- Additional Endpoints --------------------
+# -------------------- Token Endpoints --------------------
 
-# Implement endpoints for updating and deleting posts, comments, likes, etc.
+
+@router.post("/token", response_model=schemas.Token)
+def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    """
+    Authenticate user and return a JWT token.
+    """
+    user = authenticate_user(db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=auth.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": str(user.id)},  # Using user ID as the subject
+        expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+# -------------------- Protected Routes Example --------------------
+
+@router.get("/users/me/", response_model=schemas.UserOut)
+def read_users_me(current_user: models.User = Depends(get_current_user)):
+    return current_user

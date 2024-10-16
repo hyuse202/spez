@@ -85,3 +85,13 @@ class LikeOut(BaseModel):
     class Config:
         orm_mode = True
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    user_id: Optional[int] = None
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
