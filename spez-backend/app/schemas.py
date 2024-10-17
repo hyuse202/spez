@@ -66,7 +66,7 @@ CommentOut.update_forward_refs()
  
 
 class LikeCreate(BaseModel):
-    user_id: int
+    # user_id: int
     post_id: Optional[int]
     comment_id: Optional[int] 
     @classmethod

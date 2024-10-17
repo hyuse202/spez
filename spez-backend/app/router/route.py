@@ -32,11 +32,11 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 # -------------------- Post Endpoints --------------------
 
 @router.post("/posts/", response_model=schemas.PostOut, status_code=status.HTTP_201_CREATED)
-def create_post(post: schemas.PostCreate, user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_id(db, user_id=user_id)
+def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    db_user = crud.get_user_by_id(db, user_id=current_user.id)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-    db_post = crud.create_post(db, post, user_id)
+    db_post = crud.create_post(db, post, current_user.id)
     return db_post
 
 @router.get("/posts/", response_model=List[schemas.PostOut])
@@ -54,8 +54,8 @@ def read_post(post_id: int, db: Session = Depends(get_db)):
 # -------------------- Comment Endpoints --------------------
 
 @router.post("/comments/", response_model=schemas.CommentOut, status_code=status.HTTP_201_CREATED)
-def create_comment(comment: schemas.CommentCreate, user_id: int, post_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_id(db, user_id=user_id)
+def create_comment(comment: schemas.CommentCreate, post_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    db_user = crud.get_user_by_id(db, user_id=current_user)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
     # Optionally, verify that post_id exists
@@ -66,7 +66,7 @@ def create_comment(comment: schemas.CommentCreate, user_id: int, post_id: int, d
     #     db_parent = crud.get_comment(db, comment_id=comment.parent_id)
     #     if not db_parent:
     #         raise HTTPException(status_code=404, detail="Parent comment not found")
-    db_comment = crud.create_comment(db, comment, user_id, post_id)
+    db_comment = crud.create_comment(db, comment, current_user.id, post_id)
     return db_comment
 
 @router.get("/comments/{comment_id}", response_model=schemas.CommentOut)
@@ -87,7 +87,7 @@ def read_comments(
     return comments
 
 @router.delete("/comments/{comment_id}", response_model=schemas.CommentOut)
-def delete_comment(comment_id: int, db: Session = Depends(get_db)):
+def delete_comment(comment_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     db_item = crud.delete_comment(db=db, comment_id=comment_id)
     if db_item is None:
         raise HTTPException(status_code=404, detail="Comment not found")
@@ -95,7 +95,7 @@ def delete_comment(comment_id: int, db: Session = Depends(get_db)):
 # # -------------------- Like Endpoints --------------------
 
 @router.post("/likes/", response_model=schemas.LikeOut, status_code=status.HTTP_201_CREATED)
-def create_like(like: schemas.LikeCreate, db: Session = Depends(get_db)):
+def create_like(like: schemas.LikeCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     # Ensure that either post_id or comment_id is provided
     # if not like.post_id and not like.comment_id:
     #     raise HTTPException(status_code=400, detail="Either post_id or comment_id must be provided")
@@ -125,10 +125,10 @@ def create_like(like: schemas.LikeCreate, db: Session = Depends(get_db)):
     # if existing_like:
     #     raise HTTPException(status_code=400, detail="Like already exists")
     
-    db_like = crud.create_like(db, like)
+    db_like = crud.create_like(db, like, current_user.id)
     return db_like
 @router.delete("/likes/{like_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_like(like_id: int, db: Session = Depends(get_db)):
+def delete_like(like_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     # db_like = db.query(models.Like).filter(models.Like.id == like_id).first()
     # if not db_like:
     #     raise HTTPException(status_code=404, detail="Like not found")

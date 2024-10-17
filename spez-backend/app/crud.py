@@ -80,9 +80,9 @@ def delete_comment(db: Session, comment_id: int):
 
 # -------------------- Like CRUD --------------------
 
-def create_like(db: Session, like: schemas.LikeCreate) -> models.Like:
+def create_like(db: Session, like: schemas.LikeCreate, user_id: int) -> models.Like:
     db_like = models.Like(
-        user_id=like.user_id,
+        user_id=user_id,
         post_id=like.post_id,
         comment_id=like.comment_id
     )
