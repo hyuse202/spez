@@ -2,6 +2,7 @@
 import { useState, FormEvent } from "react";
 import LoadingSingle from "@/components/LoadingSingle";
 import { useRouter } from "next/navigation";
+
 export default function LoginForm() {
   const router = useRouter();
   const [username, setUsername] = useState<string | any>("");
@@ -17,13 +18,6 @@ export default function LoginForm() {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    // const result: any= await authenticateUser(username, password);
-    // if (result?.success) {
-    //   localStorage.setItem("token", result.token); // Store token in localStorage
-    //   router.push("/"); // Redirect to home page on success
-    // } else {
-    //   setError("Invalid username or password. Please try again.");
-    // }
     const body = new URLSearchParams();
     body.append('username', username);
     body.append('password', password);
@@ -52,7 +46,7 @@ export default function LoginForm() {
           localStorage.setItem('jwt', data.access_token);
 
           // Redirect to dashboard or protected route
-          window.location.href = '/dashboard';
+          window.location.href = '/';
         }
       } catch (err) {
         console.error('Login error:', err);

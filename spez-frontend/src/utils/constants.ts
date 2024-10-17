@@ -1,0 +1,1 @@
+export const BE_URI = 'http://localhost:8000'
