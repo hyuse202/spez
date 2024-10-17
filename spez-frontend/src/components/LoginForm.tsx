@@ -1,6 +1,5 @@
 "use client";
-import { authenticate } from "@/utils/auth";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import LoadingSingle from "@/components/LoadingSingle";
 import { useRouter } from "next/navigation";
 export default function LoginForm() {
@@ -13,29 +12,52 @@ export default function LoginForm() {
   const togglePasswordVisibility = () => {
     setShowPassword((prev: any) => !prev);
   };
-  const authenticateUser = async (Username: string, Password: string) => {
-    // Simulate an API call to authenticate the user
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (Username === "admin" && Password === "123") {
-          resolve({ success: true, token: "dummy-token" });
-        } else {
-          resolve({ success: false });
-        }
-      }, 1000);
-    });
-  };
-  const handleSubmit = async (e: any) => {
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    const result: any= await authenticateUser(username, password);
-    if (result?.success) {
-      localStorage.setItem("token", result.token); // Store token in localStorage
-      router.push("/"); // Redirect to home page on success
-    } else {
-      setError("Invalid username or password. Please try again.");
-    }
+    // const result: any= await authenticateUser(username, password);
+    // if (result?.success) {
+    //   localStorage.setItem("token", result.token); // Store token in localStorage
+    //   router.push("/"); // Redirect to home page on success
+    // } else {
+    //   setError("Invalid username or password. Please try again.");
+    // }
+    const body = new URLSearchParams();
+    body.append('username', username);
+    body.append('password', password);
+    console.log(body)
+    // API call to authenticate using x-www-form-urlencoded
+    try {
+        const res = await fetch('http://localhost:8000/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: body.toString(),
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          setError(errorData.message || 'Failed to login');
+          return;
+        }
+
+        const data = await res.json();
+        // Assuming the API returns the JWT token in the response
+        console.log(data)
+        if (data.access_token) {
+          // Store JWT in localStorage (or cookies for security-sensitive applications)
+          localStorage.setItem('jwt', data.access_token);
+
+          // Redirect to dashboard or protected route
+          window.location.href = '/dashboard';
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        setError('Something went wrong. Please try again.');
+      }
   };
   return (
     <div className="w-full flex flex-col lg:flex-row h-5/6 items-center justify-center">
