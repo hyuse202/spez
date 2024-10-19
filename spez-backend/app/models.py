@@ -26,8 +26,19 @@ class User(Base):
     posts = relationship('Post', back_populates='author', cascade="all, delete-orphan")
     comments = relationship('Comment', back_populates='author', cascade="all, delete-orphan")
     likes = relationship('Like', back_populates='user', cascade="all, delete-orphan")
+    profile = relationship("UserProfile", back_populates="user", cascade="all, delete-orphan",uselist=False)
 
+class UserProfile(Base): 
+    __tablename__ = 'user_profiles'
 
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)  # Each user has one profile
+    avatar = Column(String, nullable=True)  # URL to the user's avatar image
+    gender = Column(String, nullable=True)  # Gender: male, female, other, etc.
+    description = Column(String, nullable=True)  # A short bio or description
+
+    # Relationship with the User model
+    user = relationship("User", back_populates="profile")
 class Post(Base):
     __tablename__ = 'posts'
 

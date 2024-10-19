@@ -7,6 +7,23 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
 
+class UserProfileBase(BaseModel):
+    avatar: Optional[str]  # URL for the avatar
+    gender: Optional[str]  # Can be 'male', 'female', 'other', etc.
+    description: Optional[str]  # Short bio, max 300 characters
+
+class UserProfileCreate(UserProfileBase):
+    pass
+
+class UserProfileUpdate(UserProfileBase):
+    pass
+
+class UserProfileOut(UserProfileBase):
+    id: int
+    user_id: int
+
+    class Config:
+        orm_mode = True
 class UserOut(BaseModel):
     id: int
     username: str
