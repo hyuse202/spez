@@ -55,6 +55,7 @@ class CommentBase(BaseModel):
 
 class CommentCreate(CommentBase):
     post_id: int
+    content: str
     # parent_id: Optional[int] = None  # For nested comments
 
 class CommentUpdate(BaseModel):
@@ -68,7 +69,7 @@ class CommentOut(CommentBase):
     post_id: int
     # parent_id: Optional[int]
     # replies: List['CommentOut'] = []  # Recursive relationship
-    likes_count: int
+    # likes_count: int
 
     class Config:
         orm_mode = True

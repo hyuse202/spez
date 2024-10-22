@@ -12,7 +12,6 @@ export default function usePost() {
             {
             headers: {
                 accept: 'application/json',
-                // 'Authorization': `Bearer ${token}`
             }
         }
     )

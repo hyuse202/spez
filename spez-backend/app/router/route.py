@@ -76,19 +76,19 @@ def read_post(post_id: int, db: Session = Depends(get_db)):
 # -------------------- Comment Endpoints --------------------
 
 @router.post("/comments/", response_model=schemas.CommentOut, status_code=status.HTTP_201_CREATED)
-def create_comment(comment: schemas.CommentCreate, post_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
-    db_user = crud.get_user_by_id(db, user_id=current_user)
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User not found")
-    # Optionally, verify that post_id exists
-    db_post = crud.get_post(db, post_id=post_id)
-    if not db_post:
-        raise HTTPException(status_code=404, detail="Post not found")
+def create_comment(comment: schemas.CommentCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    # db_user = crud.get_user_by_id(db, user_id=current_user)
+    # if not db_user:
+    #     raise HTTPException(status_code=404, detail="User not found")
+    # # Optionally, verify that post_id exists
+    # db_post = crud.get_post(db)
+    # if not db_post:
+    #     raise HTTPException(status_code=404, detail="Post not found")
     # if comment.parent_id:
     #     db_parent = crud.get_comment(db, comment_id=comment.parent_id)
     #     if not db_parent:
     #         raise HTTPException(status_code=404, detail="Parent comment not found")
-    db_comment = crud.create_comment(db, comment, current_user.id, post_id)
+    db_comment = crud.create_comment(db, comment, current_user.id)
     return db_comment
 
 @router.get("/comments/{comment_id}", response_model=schemas.CommentOut)
