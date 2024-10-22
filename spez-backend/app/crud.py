@@ -99,5 +99,5 @@ def delete_like(db: Session, like_id: int):
     db.commit()
 
 def get_like_by_post(db: Session, post_id: int) -> Optional[models.Like]:
-    return db.query(models.Like).filter(models.Like.post_id == post_id).all()
+    return db.query(models.Like).filter(models.Like.post_id == post_id).count()
     

@@ -46,7 +46,6 @@ class PostOut(BaseModel):
     created_at: datetime
     updated_at: Optional[datetime]
     author: UserOut
-
     class Config:
         orm_mode = True
 
@@ -102,7 +101,8 @@ class LikeOut(BaseModel):
 
     class Config:
         orm_mode = True
-
+class LikeCount(BaseModel):
+    likes_count: int
 class Token(BaseModel):
     access_token: str
     token_type: str

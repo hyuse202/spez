@@ -116,6 +116,12 @@ def delete_comment(comment_id: int, db: Session = Depends(get_db), current_user:
     return db_item
 # # -------------------- Like Endpoints --------------------
 
+@router.get("/likes/post/{post_id}")
+def get_like_by_post(post_id: int, db: Session = Depends(get_db)):
+    db_item = crud.get_like_by_post(db = db, post_id=post_id)
+    return db_item
+
+
 @router.post("/likes/", response_model=schemas.LikeOut, status_code=status.HTTP_201_CREATED)
 def create_like(like: schemas.LikeCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     # Ensure that either post_id or comment_id is provided
