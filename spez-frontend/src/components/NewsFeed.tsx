@@ -4,7 +4,7 @@ import Post from "./Post";
 export default async function NewsFeed() {
     const {getAllPost} = await usePost();
     const AllPost = await getAllPost();
-    console.log(AllPost)
+    // console.log(AllPost)
     return (
         <>
             <div className="w-full h-screen p-8">
@@ -16,7 +16,8 @@ export default async function NewsFeed() {
                         id = {post.id}
                         title = {post.title}
                         content = {post.content}
-                        author = {post.author.username}
+                        author = {post.author}
+                        date = {post.created_at}
                         />
                     )
                     )

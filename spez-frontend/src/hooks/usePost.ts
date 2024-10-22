@@ -1,23 +1,52 @@
-import { BE_URI } from "@/utils/constants"
-import axios from 'axios'
+import { BE_URI } from "@/utils/constants";
+import axios from "axios";
 export default function usePost() {
-    let token:any
-    if (typeof window !== 'undefined')
-        token = localStorage.getItem('jwt')
-    const API = {
-        all: BE_URI + "/post"
-    }
-    async function getAllPost() {
-        const data = await axios.get('http://localhost:8000/posts', 
-            {
-            headers: {
-                accept: 'application/json',
-            }
-        }
-    )
-        return data.data;
-    }
-  return {
-    getAllPost
+  let token: any;
+  if (typeof window !== "undefined") token = localStorage.getItem("jwt");
+  const API = {
+    all: BE_URI + "/posts",
+    post: BE_URI + "/posts/",
+    like: BE_URI + "/likes",
+    comments: BE_URI + "/posts/cmt/"
+  };
+  // console.log(API.post);s
+  async function getAllPost() {
+    const data = await axios.get(API.all, {
+      headers: {
+        accept: "application/json",
+      },
+    });
+    return data.data;
   }
+  async function getPost(id: string) {
+    const data = await axios.get(API.post + id, {
+      headers: {
+        accept: "application/json",
+      },
+    });
+    return data.data
+  }
+  async function getLike(id: string) {
+    const data = await axios.get(API.like + "/post/" + id, {
+      headers: {
+        accept: "application/json",
+
+      }
+    })
+    return data.data
+  }
+  async function getComment(id: string) {
+    const data = await axios.get(API.comments + id, {
+      headers: {
+        accept: "application/json"
+      }
+    })
+    return data.data
+  }
+  return {
+    getAllPost,
+    getPost,
+    getLike,
+    getComment
+  };
 }

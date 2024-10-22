@@ -1,22 +1,26 @@
+import Link from "next/link";
 type Props = {
   id: string;
   title: string;
   content: string;
-  author: string,
-//   additional: string;
-//   episodeId?: string;
+  author: any;
+  date: string;
 };
-export default function Post({id, title, content, author}: Props) {
-    return <div className="text-black p-2 border-2 border-slate-950 rounded w-1/2 shadow">
-            <div className="pl-10 font-semibold">
-                    {author}
-            </div>
-            <div className="pl-2 text-2xl font-bold">
-                {title}
-            </div>
-            <div className="p-2">
-                    {content}
-            </div>
-        </div>
-
+export default function Post({ id, title, content, author, date }: Props) {
+  const author_url = "/user/" + author.id;
+  const post_url = "/post/" + id;
+  const real_date = new Date(date).toString();
+  return (
+    <div className="text-black p-2 border-2 border-slate-950 rounded w-1/2 shadow">
+      <div className="pl-10 font-semibold">
+        <Link href={author_url}> {author.username}</Link>
+        {"     "} {real_date}
+      </div>
+      <div className="pl-2 text-2xl font-bold">
+        <Link href={post_url}>{title}</Link>
+      </div>
+      <div className="p-2">{content}</div>
+      <div></div>
+    </div>
+  );
 }
