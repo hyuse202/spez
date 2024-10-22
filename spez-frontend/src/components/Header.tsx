@@ -1,6 +1,28 @@
-import React from "react";
+"use client"
+import React, {useState, useEffect} from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  // Check for JWT in localStorage on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    setIsLoggedIn(!!token); // Set login state based on presence of token
+  }, []);
+
+  // Handle logout: clear the JWT and redirect to login page
+  const handleLogout = () => {
+    localStorage.removeItem('jwt');
+    setIsLoggedIn(false);
+    router.push('/signin'); // Redirect to login page
+  };
+
+  // Handle login: redirect to the login page
+  const handleLogin = () => {
+    router.push('/signin');
+  };
   return (
     <>
     {/* <div className="w-screen h-screen bg-[#181818] overflow-hidden"> */}
@@ -12,13 +34,15 @@ function Header() {
         
         <ul className='hidden md:flex items-center space-x-5 font-semibold'>
           <li>
-          <Link href="/about"> About</Link>
-          </li>
-          <li>
-            <Link href="/contact"> Contact</Link>
-          </li>
-          <li>
-            <Link href="/help"> Help</Link>
+            {isLoggedIn ? (
+              <button onClick={handleLogout} className="bg-red-500 px-4 py-2 rounded">
+                Logout
+              </button>
+            ) : (
+              <button onClick={handleLogin} className="bg-green-500 px-4 py-2 rounded">
+                Login
+              </button>
+            )}
           </li>
         </ul>
 

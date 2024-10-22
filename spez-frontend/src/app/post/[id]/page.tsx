@@ -14,7 +14,6 @@ export default async function Post({ params }: Props) {
   const comment: any = await getComment(id);
   const real_date = new Date(info.created_at).toString();
   const author_url = "/user/" + info.author.id;
-  console.log(comment.author);
   return (
     <>
       <div className="w-full p-8 flex flex-col justify-center items-center space-y-2">
