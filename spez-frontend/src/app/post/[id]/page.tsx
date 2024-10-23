@@ -2,6 +2,8 @@
 import usePost from "@/hooks/usePost";
 import Link from "next/link";
 import Comment from "@/components/Comment";
+
+
 type Props = {
   params: { id: string };
 };

@@ -23,6 +23,9 @@ function Header() {
   const handleLogin = () => {
     router.push('/signin');
   };
+  const handleSubmit = () => {
+    router.push('/submit')
+  }
   return (
     <>
     {/* <div className="w-screen h-screen bg-[#181818] overflow-hidden"> */}
@@ -43,6 +46,12 @@ function Header() {
                 Login
               </button>
             )}
+
+          </li>
+          <li>
+            <button onClick={handleSubmit} className="bg-stone-500 px-4 py-2 rounded-full">
+              Create Post
+            </button>
           </li>
         </ul>
 
