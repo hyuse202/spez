@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Parser from 'html-react-parser'
 type Props = {
   id: string;
   title: string;
@@ -19,7 +20,7 @@ export default function Post({ id, title, content, author, date }: Props) {
       <div className="pl-2 text-2xl font-bold">
         <Link href={post_url}>{title}</Link>
       </div>
-      <div className="p-2">{content}</div>
+      <div className="p-2">{Parser(content)}</div>
       <div></div>
     </div>
   );

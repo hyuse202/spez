@@ -2,7 +2,7 @@
 import usePost from "@/hooks/usePost";
 import Link from "next/link";
 import Comment from "@/components/Comment";
-
+import Parser from 'html-react-parser'
 
 type Props = {
   params: { id: string };
@@ -25,7 +25,7 @@ export default async function Post({ params }: Props) {
             {"     "} {real_date}
           </div>
           <div className="pl-2 text-2xl font-bold">{info.title}</div>
-          <div className="p-2">{info.content}</div>
+          <div className="p-2">{Parser(info.content)}</div>
           <div className="flex flex-row">
             <div className="w-1/2">Likes: {likes}</div>
             <div className="w-1/2">Cmt: {comment.length}</div>
