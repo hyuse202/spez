@@ -42,6 +42,7 @@ export default async function Post({ params }: Props) {
           </div>
         </div>
         <div className="border-2 border-slate-950 p-2 text-black rounded shadow h-full w-1/2 space-y-5">
+        <a className="font-bold text-2xl">Bình Loạn</a>
           {comment.map((e: any) => (
             <Comment
                 // author_id = {comment.author}

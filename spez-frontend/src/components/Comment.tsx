@@ -1,16 +1,27 @@
+import { getRelativeTime } from "@/utils/getRelativeTime";
+import Link from "next/link";
 type Prop = {
   author: any;
   content: string;
   date: string;
 };
-export default function Comment({ author, content, date }: Prop) {
 
-  const real_date = new Date(date).toString();
+export default function Comment({ author, content, date }: Prop) {
+  const usr_url = "/user/" + author.username
   return (
     <>
-        <div className="p-2 bg-gray-500 rounded shadow">
+        <div className="p-2 rounded shadow border-2 border-black">
+
             <div>
-                {author?.username} {"   "} {real_date}
+
+                <Link href={usr_url} className="font-semibold">
+                {author?.username} 
+                </Link>
+                {"   "}
+                <a className="text-sm"> 
+
+                 {getRelativeTime(date)}
+                </a>
             </div>
             <div className="pl-8">
                 {content}
