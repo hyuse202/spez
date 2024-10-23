@@ -123,7 +123,7 @@ def get_like_by_post(post_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/likes/", response_model=schemas.LikeOut, status_code=status.HTTP_201_CREATED)
-def create_like(like: schemas.LikeCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+def create_like(post_id: int = 0, cmt_id: int = 0, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     # Ensure that either post_id or comment_id is provided
     # if not like.post_id and not like.comment_id:
     #     raise HTTPException(status_code=400, detail="Either post_id or comment_id must be provided")
@@ -153,7 +153,7 @@ def create_like(like: schemas.LikeCreate, db: Session = Depends(get_db), current
     # if existing_like:
     #     raise HTTPException(status_code=400, detail="Like already exists")
     
-    db_like = crud.create_like(db, like, current_user.id)
+    db_like = crud.create_like(db, post_id, cmt_id, current_user.id)
     return db_like
 @router.delete("/likes/{like_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_like(like_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):

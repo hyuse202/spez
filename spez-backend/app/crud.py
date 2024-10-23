@@ -49,7 +49,7 @@ def get_comment(db: Session, comment_id: int) -> Optional[models.Comment]:
     return db.query(models.Comment).filter(models.Comment.id == comment_id).first()
 
 def get_comments_by_post(db: Session, post_id: int, skip: int = 0, limit: int = 10) -> List[models.Comment]:
-     return db.query(models.Comment).filter(models.Post.id == post_id).offset(skip).limit(limit).all()
+     return db.query(models.Comment).filter(models.Comment.post_id == post_id).offset(skip).limit(limit).all()
     
 
 def create_comment(db: Session, comment: schemas.CommentCreate, user_id: int) -> models.Comment:
@@ -80,11 +80,11 @@ def delete_comment(db: Session, comment_id: int):
 
 # -------------------- Like CRUD --------------------
 
-def create_like(db: Session, like: schemas.LikeCreate, user_id: int) -> models.Like:
+def create_like(db: Session, post_id, cmt_id, user_id: int) -> models.Like:
     db_like = models.Like(
         user_id=user_id,
-        post_id=like.post_id,
-        comment_id=like.comment_id
+        post_id=post_id,
+        comment_id=cmt_id
     )
     db.add(db_like)
     db.commit()
