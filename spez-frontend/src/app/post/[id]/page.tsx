@@ -3,7 +3,9 @@ import usePost from "@/hooks/usePost";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Parser from 'html-react-parser'
-
+import Image from "next/image";
+import EagleEmoji from '../../../../public/eagle_emoji.png'
+import { getRelativeTime } from "@/utils/getRelativeTime";
 type Props = {
   params: { id: string };
 };
@@ -20,14 +22,22 @@ export default async function Post({ params }: Props) {
     <>
       <div className="w-full p-8 flex flex-col justify-center items-center space-y-2">
         <div className="text-black p-2 border-2 border-slate-950 rounded w-1/2 shadow">
-          <div className="pl-10 font-semibold">
-            <Link href={author_url}> {info.author.username}</Link>
-            {"     "} {real_date}
+          <div className="pl-10">
+            <Link href={author_url} className="font-semibold"> {info.author.username}</Link>
+            {"     "} {getRelativeTime(info.created_at)}
           </div>
           <div className="pl-2 text-2xl font-bold">{info.title}</div>
           <div className="p-2">{Parser(info.content)}</div>
           <div className="flex flex-row">
-            <div className="w-1/2">Likes: {likes}</div>
+            <div className="w-1/2 flex flex-row">
+            <p className="pt-[0.35rem]"> Ưng</p>
+              <Image
+                src={EagleEmoji}
+                alt = "eagle_img"
+                width={30}
+                height={50} />
+              <p className="pt-[0.35rem]">: {likes} </p>
+            </div>
             <div className="w-1/2">Cmt: {comment.length}</div>
           </div>
         </div>

@@ -11,7 +11,7 @@ export default function usePost() {
     comments: BE_URI + "/posts/cmt/",
   };
   async function getAllPost() {
-    const data = await axios.get(API.all, {
+    const data = await axios.get(API.all + "/?skip=10", {
       headers: {
         accept: "application/json",
       },
