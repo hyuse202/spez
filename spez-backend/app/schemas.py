@@ -53,7 +53,7 @@ class CommentBase(BaseModel):
     content: str
 
 class CommentCreate(CommentBase):
-    post_id: int
+    # post_id: int
     content: str
     # parent_id: Optional[int] = None  # For nested comments
 

@@ -52,10 +52,10 @@ def get_comments_by_post(db: Session, post_id: int, skip: int = 0, limit: int = 
      return db.query(models.Comment).filter(models.Comment.post_id == post_id).offset(skip).limit(limit).all()
     
 
-def create_comment(db: Session, comment: schemas.CommentCreate, user_id: int) -> models.Comment:
+def create_comment(db: Session, post_id:int, comment: schemas.CommentCreate, user_id: int) -> models.Comment:
     db_comment = models.Comment(
         content=comment.content,
-        post_id=comment.post_id,
+        post_id=post_id,
         # parent_id=comment.parent_id,
         author_id=user_id
     )
