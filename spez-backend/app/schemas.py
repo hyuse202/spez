@@ -85,12 +85,12 @@ CommentOut.update_forward_refs()
 class LikeCreate(BaseModel):
     # user_id: int
     post_id: Optional[int]
-    comment_id: Optional[int] 
-    @classmethod
-    def validate_like(cls, **data):
-        if not data.get('post_id') and not data.get('comment_id'):
-            raise ValueError("Either post_id or comment_id must be provided")
-        return cls(**data)
+    # comment_id: Optional[int] 
+    # @classmethod
+    # def validate_like(cls, **data):
+    #     if not data.get('post_id') and not data.get('comment_id'):
+    #         raise ValueError("Either post_id or comment_id must be provided")
+    #     return cls(**data)
 
 class LikeOut(BaseModel):
     id: int
