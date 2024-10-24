@@ -30,7 +30,7 @@ export default async function Post({ params }: Props) {
           <div className="pl-2 text-2xl font-bold">{info.title}</div>
           <div className="p-2">{Parser(info.content)}</div>
           <div className="flex flex-row">
-            <div className="w-1/2 flex flex-row">
+            <div className="w-auto flex flex-row">
             <p className="pt-[0.35rem]"> Ưng</p>
               <Image
                 src={EagleEmoji}
@@ -39,7 +39,7 @@ export default async function Post({ params }: Props) {
                 height={50} />
               <p className="pt-[0.35rem]">: {likes} </p>
             </div>
-            <div className="w-1/2">Cmt: {comment.length}</div>
+            <div className="w-auto pt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Cmt: {comment.length}</div>
           </div>
           <CmtForm postId={id} />
         </div>

@@ -52,7 +52,7 @@ export default function CmtForm ({postId}: Props) {
   };
 
   return (
-    <div className="">
+    <div className="pt-3">
       <form onSubmit={handleSubmit} className=" rounded">
         {/* <h2 className="text-xl font-bold mb-2 mt-3">Tạo bình loạn</h2> */}
         <div className="mb-4">
