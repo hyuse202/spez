@@ -5,6 +5,7 @@ import Comment from "@/components/Comment";
 import Parser from 'html-react-parser'
 import Image from "next/image";
 import EagleEmoji from '../../../../public/eagle_emoji.png'
+import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
 type Props = {
   params: { id: string };
@@ -40,6 +41,7 @@ export default async function Post({ params }: Props) {
             </div>
             <div className="w-1/2">Cmt: {comment.length}</div>
           </div>
+          <CmtForm postId={id} />
         </div>
         <div className="border-2 border-slate-950 p-2 text-black rounded shadow h-full w-1/2 space-y-5">
         <a className="font-bold text-2xl">Bình Loạn</a>

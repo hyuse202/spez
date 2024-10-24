@@ -24,7 +24,8 @@ export default function Post({ id, title, content, author, date }: Props) {
         <Link href={post_url}>{title}</Link>
       </div>
       <div className="p-2">{Parser(content)}</div>
-      <div></div>
+      <div>
+      </div>
     </div>
   );
 }

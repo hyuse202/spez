@@ -1,5 +1,6 @@
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import Link from "next/link";
+import Parser from 'html-react-parser'
 type Prop = {
   author: any;
   content: string;
@@ -24,7 +25,7 @@ export default function Comment({ author, content, date }: Prop) {
                 </a>
             </div>
             <div className="pl-8">
-                {content}
+                {Parser(content)}
             </div>
         </div>
     </>
