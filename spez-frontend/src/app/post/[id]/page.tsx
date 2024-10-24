@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 import usePost from "@/hooks/usePost";
 import Link from "next/link";
 import Comment from "@/components/Comment";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import EagleEmoji from '../../../../public/eagle_emoji.png'
 import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
+import axios from "axios";
 type Props = {
   params: { id: string };
 };
@@ -17,8 +18,30 @@ export default async function Post({ params }: Props) {
   const info: any = await getPost(id);
   const likes: any = await getLike(id);
   const comment: any = await getComment(id);
-  const real_date = new Date(info.created_at).toString();
   const author_url = "/user/" + info.author.id;
+  const handleLikeButton = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Send a POST request to your FastAPI backend
+      let token: any
+      if (typeof window !== 'undefined')
+        token = localStorage.getItem('jwt')
+      await axios.post(`http://localhost:8000/likes/?post_id=${id}`, 
+      {
+        headers: {
+          'accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    );
+
+      // Redirect or give feedback upon success
+      // alert('Post created successfully!');
+    } catch (error) {
+      console.error('Error posting data:', error);
+      alert('Failed to create post.');
+    }
+  };
   return (
     <>
       <div className="w-full p-8 flex flex-col justify-center items-center space-y-2">
@@ -30,7 +53,7 @@ export default async function Post({ params }: Props) {
           <div className="pl-2 text-2xl font-bold">{info.title}</div>
           <div className="p-2">{Parser(info.content)}</div>
           <div className="flex flex-row">
-            <div className="w-auto flex flex-row">
+            <button onClick={handleLikeButton} className="w-auto flex flex-row border-2 border-black rounded-full px-2">
             <p className="pt-[0.35rem]"> Ưng</p>
               <Image
                 src={EagleEmoji}
@@ -38,8 +61,8 @@ export default async function Post({ params }: Props) {
                 width={30}
                 height={50} />
               <p className="pt-[0.35rem]">: {likes} </p>
-            </div>
-            <div className="w-auto pt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Cmt: {comment.length}</div>
+            </button>
+            <div className="w-auto mt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Cmt: {comment.length}</div>
           </div>
           <CmtForm postId={id} />
         </div>
