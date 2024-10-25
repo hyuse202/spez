@@ -42,7 +42,12 @@ def create_post(db: Session, post: schemas.PostCreate, user_id: int) -> models.P
     db.commit()
     db.refresh(db_post)
     return db_post
-
+def del_post(db: Session, post_id: int):
+    db_post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    if not db_post:
+        return None
+    db.delete(db_post)
+    db.commit()
 # -------------------- Comment CRUD --------------------
 
 def get_comment(db: Session, comment_id: int) -> Optional[models.Comment]:

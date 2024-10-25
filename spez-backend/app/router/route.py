@@ -72,6 +72,11 @@ def read_post(post_id: int, db: Session = Depends(get_db)):
     if not db_post:
         raise HTTPException(status_code=404, detail="Post not found")
     return db_post
+@router.delete('/posts/{post_id}',)
+def del_post(post_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    db_post = crud.del_post(db, post_id=post_id)
+    # if db_post is None:
+    return db_post
 
 # -------------------- Comment Endpoints --------------------
 
