@@ -8,12 +8,13 @@ import EagleEmoji from '../../../../public/eagle_emoji.png'
 import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import axios from "axios";
+import { GoTrash } from "react-icons/go";
 type Props = {
   params: { id: string };
 };
 export default async function Post({ params }: Props) {
   const id: string = params.id;
-  const { getPost, getLike, getComment } = await usePost();
+  const { getPost, getLike, getComment, delPost } = await usePost();
 
   const info: any = await getPost(id);
   const likes: any = await getLike(id);
@@ -27,28 +28,40 @@ export default async function Post({ params }: Props) {
       if (typeof window !== 'undefined')
         token = localStorage.getItem('jwt')
       await axios.post(`http://localhost:8000/likes/?post_id=${id}`, 
-      {
-        headers: {
-          'accept': 'application/json',
-          'Authorization': `Bearer ${token}`
+        {
+          headers: {
+            'accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
         }
-      }
-    );
-
+      );
+      
       // Redirect or give feedback upon success
       // alert('Post created successfully!');
     } catch (error) {
       console.error('Error posting data:', error);
-      alert('Failed to create post.');
+      alert('Failed to create like.');
     }
   };
+  const handleDelPost = async (e: React.FormEvent) => {
+    let token: any
+    if (typeof window !== 'undefined')
+      token = localStorage.getItem('jwt')
+    const deletePost:any = await delPost(id, token);
+    console.log(deletePost)
+    
+  }
   return (
     <>
       <div className="w-full p-8 flex flex-col justify-center items-center space-y-2">
         <div className="text-black p-2 border-2 border-slate-950 rounded w-1/2 shadow">
-          <div className="pl-10">
+          <div className="pl-10 flex flex-row justify-between">
+            <div className="w-auto">
+
             <Link href={author_url} className="font-semibold"> {info.author.username}</Link>
             {"     "} {getRelativeTime(info.created_at)}
+            </div>
+            <button onClick={handleDelPost} className="mr-8 text-red-600 text-semibold"> <GoTrash /></button>
           </div>
           <div className="pl-2 text-2xl font-bold">{info.title}</div>
           <div className="p-2">{Parser(info.content)}</div>
@@ -62,7 +75,7 @@ export default async function Post({ params }: Props) {
                 height={50} />
               <p className="pt-[0.35rem]">: {likes} </p>
             </button>
-            <div className="w-auto mt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Cmt: {comment.length}</div>
+            <div className="w-auto mt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Phản hồi: {comment.length}</div>
           </div>
           <CmtForm postId={id} />
         </div>
@@ -71,6 +84,7 @@ export default async function Post({ params }: Props) {
           {comment.map((e: any) => (
             <Comment
                 // author_id = {comment.author}
+                id = {e.id}
                 author = {e.author}
                 content= {e.content}
                 date = {e.created_at}

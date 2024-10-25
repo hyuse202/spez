@@ -26,6 +26,15 @@ export default function usePost() {
     });
     return data.data;
   }
+  async function delPost(id: string, token: string) {
+    const data = await axios.delete(API.post + id, {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  }
   async function getLike(id: string) {
     const data = await axios.get(API.like + "/post/" + id, {
       headers: {
@@ -42,10 +51,21 @@ export default function usePost() {
     });
     return data.data;
   }
+  async function delComment(id: string, token: string) {
+    const data = await axios.delete(BE_URI + "/comments/" + id, {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  }
   return {
     getAllPost,
     getPost,
     getLike,
     getComment,
+    delPost,
+    delComment
   };
 }
