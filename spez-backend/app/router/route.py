@@ -42,7 +42,21 @@ def create_user_profile(user_id: int, profile: schemas.UserProfileCreate, db: Se
     db.refresh(db_profile)
     
     return db_profile
+@router.put("/users/{user_id}/profile/", response_model=schemas.UserProfileOut)
+def update_user_profile(user_id, profile_data: schemas.UserProfileUpdate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    # Get the user profile
+    user_profile = db.query(models.UserProfile).filter(models.UserProfile.user_id == current_user.id).first()
+    if not user_profile:
+        raise HTTPException(status_code=404, detail="User profile not found")
 
+    # Update the fields that are not None in profile_data
+    for key, value in profile_data.dict(exclude_unset=True).items():
+        setattr(user_profile, key, value)
+
+    # Commit the transaction
+    db.commit()
+    db.refresh(user_profile)
+    return user_profile
 @router.get("/users/{user_id}/profile/", response_model=schemas.UserProfileOut)
 def get_user_profile(user_id: int, db: Session = Depends(get_db)):
     db_profile = db.query(models.UserProfile).filter(models.UserProfile.user_id == user_id).first()
