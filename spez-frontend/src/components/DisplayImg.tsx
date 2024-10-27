@@ -33,7 +33,7 @@ const ImageFromBase64 = ({ base64String }: ImgUrlProps) => {
           src={imageUrl}
           alt="Decoded Base64 Image"
           className="rounded-full mb-5"
-          width={300}
+          width={200}
           height={300}
         />
       ) : (

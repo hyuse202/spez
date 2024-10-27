@@ -11,7 +11,7 @@ type Prop = {
 };
 
 export default async function Comment({ id, author, content, date }: Prop) {
-  const usr_url = "/user/" + author.username;
+  const usr_url = "/user/" + author.id;
   const { delComment } = await usePost();
   const handleDelCmt = async (e: any) => {
     let token: any;
