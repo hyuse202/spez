@@ -4,7 +4,6 @@ import Post from "./Post";
 export default async function NewsFeed() {
     const {getAllPost} = await usePost();
     const AllPost = await getAllPost();
-    // console.log(AllPost)
     return (
         <>
             <div className="w-full h-screen p-8">
