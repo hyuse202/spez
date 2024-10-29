@@ -21,7 +21,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'  # Specify the Node.js version
-
+      - name: navigation frontpage
+        run: cd spez-frontend
       - name: Install dependencies
         run: npm install
 
