@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '20'  # Specify the Node.js version
       - name: navigation frontpage
-        run: cd spez-frontend
+        run: cd spez-fronted
       - name: Install dependencies
         run: npm install
 
