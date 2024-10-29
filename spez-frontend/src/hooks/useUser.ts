@@ -27,8 +27,8 @@ export default function useUser() {
       API.usr + id + "/profile",
       {
         avatar: imgBase64,
-        gender: "female",
-        description: "dcsvn quang vinh muon nam",
+        gender: "male",
+        description: "iu nuoc khong phan dong",
       },
       {
         headers: {
