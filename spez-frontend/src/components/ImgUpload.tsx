@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import useUser from "@/hooks/useUser";
+import useUser from "@/utils/svUser";
 interface ImgUploadProps {
   userId: string;
 }

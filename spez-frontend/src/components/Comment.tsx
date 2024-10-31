@@ -1,7 +1,7 @@
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import Link from "next/link";
 import Parser from "html-react-parser";
-import usePost from "@/hooks/usePost";
+import svPost from "@/utils/svPost";
 import { GoTrash } from "react-icons/go";
 type Prop = {
   id: string;
@@ -12,7 +12,7 @@ type Prop = {
 
 export default async function Comment({ id, author, content, date }: Prop) {
   const usr_url = "/user/" + author.id;
-  const { delComment } = await usePost();
+  const { delComment } = await svPost();
   const handleDelCmt = async (e: any) => {
     let token: any;
     if (typeof window !== "undefined") token = localStorage.getItem("jwt");

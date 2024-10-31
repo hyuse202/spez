@@ -1,5 +1,4 @@
 // "use client"
-import { useEffect } from 'react';
 // import { useRouter } from 'next/navigation';
 import NewsFeed from '@/components/NewsFeed';
 export default function Home() {

@@ -1,6 +1,6 @@
 import { BE_URI } from "@/utils/constants";
 import axios from "axios";
-export default function usePost() {
+export default function svPost() {
   let token: any;
   if (typeof window !== "undefined") token = localStorage.getItem("jwt");
   console.log(token);

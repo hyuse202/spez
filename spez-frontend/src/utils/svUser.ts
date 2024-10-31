@@ -1,7 +1,7 @@
 import { BE_URI } from "@/utils/constants";
 import axios from "axios";
 
-export default function useUser() {
+export default function svUser() {
   const API: any = {
     usr: BE_URI + "/users/",
     // useprofile: BE_URI +

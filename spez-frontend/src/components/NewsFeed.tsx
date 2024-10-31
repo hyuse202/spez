@@ -1,8 +1,8 @@
-import usePost from "@/hooks/usePost"
+import svPost from "@/utils/svPost"
 import Post from "./Post";
 
 export default async function NewsFeed() {
-    const {getAllPost} = await usePost();
+    const {getAllPost} =  svPost();
     const AllPost = await getAllPost();
     // console.log(AllPost)
     return (

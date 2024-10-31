@@ -1,5 +1,5 @@
 "use client"
-import usePost from "@/hooks/usePost";
+import svPost from "@/utils/svPost";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Parser from 'html-react-parser'
@@ -14,7 +14,7 @@ type Props = {
 };
 export default async function Post({ params }: Props) {
   const id: string = params.id;
-  const { getPost, getLike, getComment, delPost } = await usePost();
+  const { getPost, getLike, getComment, delPost } = svPost();
 
   const info: any = await getPost(id);
   const likes: any = await getLike(id);
