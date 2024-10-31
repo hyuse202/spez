@@ -5,7 +5,7 @@ interface ImgUrlProps {
   base64String: string;
 }
 const ImageFromBase64 = ({ base64String }: ImgUrlProps) => {
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState<string | null> (null);
 
   useEffect(() => {
     if (base64String) {
@@ -18,7 +18,7 @@ const ImageFromBase64 = ({ base64String }: ImgUrlProps) => {
       const blob = new Blob([byteArray], { type: "image/jpeg" }); // Adjust MIME type as needed
 
       // Create a URL from the blob and set it to the imageUrl state
-      const url: any = URL.createObjectURL(blob);
+      const url: string = URL.createObjectURL(blob);
       setImageUrl(url);
 
       // Clean up the URL when the component unmounts

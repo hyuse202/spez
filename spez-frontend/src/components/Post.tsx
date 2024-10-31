@@ -1,14 +1,9 @@
 import Link from "next/link";
 import Parser from "html-react-parser";
 import { getRelativeTime } from "@/utils/getRelativeTime";
-type PostProps = {
-  id: string;
-  title: string;
-  content: string;
-  author: any;
-  date: string;
-};
-const Post: React.FC<PostProps> = ({ id, title, content, author, date }) => {
+import { IPost } from "@/types";
+
+const Post: React.FC<IPost> = ({ id, title, content, author, created_at }) => {
   const author_url = "/user/" + author.id;
   const post_url = "/post/" + id;
   return (
@@ -19,7 +14,7 @@ const Post: React.FC<PostProps> = ({ id, title, content, author, date }) => {
           {author.username}
         </Link>
         {"     "}
-        <a className="text-sm">{getRelativeTime(date)}</a>
+        <a className="text-sm">{getRelativeTime(created_at)}</a>
       </div>
       <div className="pl-2 text-2xl font-bold">
         <Link href={post_url}>{title}</Link>

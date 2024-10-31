@@ -1,18 +1,18 @@
 "use client";
 import React, { useState } from "react";
-import useUser from "@/utils/svUser";
+import svUser from "@/utils/svUser";
 interface ImgUploadProps {
   userId: string;
 }
 function ImageUploader({ userId }: ImgUploadProps) {
-  const [base64Image, setBase64Image] = useState("");
-  const { updUsrProfile } = useUser();
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
+  const [base64Image, setBase64Image] = useState<string | null> (null);
+  const { updUsrProfile } = svUser();
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
-      const reader: any = new FileReader();
+      const reader = new FileReader();
       reader.onloadend = () => {
-        const base64String = reader.result.split(",")[1];
+        const base64String = reader.result? reader.result.toString().split(",")[1]: null
         setBase64Image(base64String);
         // You can also send the base64 string to the server here if needed
         console.log("Base64 Image String:", base64String);
@@ -23,7 +23,7 @@ function ImageUploader({ userId }: ImgUploadProps) {
 
   const handleSubmit = async () => {
     try {
-      let token: any;
+      let token: string | null
       if (typeof window !== undefined) token = localStorage.getItem("jwt");
       const response = await updUsrProfile(userId, token, base64Image);
       const data = await response.json();

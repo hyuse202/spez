@@ -1,16 +1,16 @@
 
 "use client"
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 // Dynamically import SunEditor to avoid SSR issues
-const DynamicSunEditor = dynamic(() => import('suneditor-react'), {
-  ssr: false,
-});
+// const DynamicSunEditor = dynamic(() => import('suneditor-react'), {
+//   ssr: false,
+// });
 
 type Props = {
     postId: string
@@ -24,12 +24,12 @@ export default function CmtForm ({postId}: Props) {
     e.preventDefault();
     try {
       // Send a POST request to your FastAPI backend
-      let token: any
+      let token: string | null
       if (typeof window !== 'undefined')
         token = localStorage.getItem('jwt')
       if(token === undefined)
         router.push('/')
-      console.log(token)
+      // console.log(token)
       await axios.post(`http://localhost:8000/posts/cmt/${postId}`, 
         {
 

@@ -1,17 +1,17 @@
 "use client";
 import { useState, FormEvent } from "react";
 import LoadingSingle from "@/components/LoadingSingle";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const router = useRouter();
-  const [username, setUsername] = useState<string | any>("");
-  const [password, setPassword] = useState<string | any>("");
-  const [showPassword, setShowPassword] = useState<boolean | any>(false);
-  const [isLoading, setIsLoading] = useState<boolean | any>(false);
+  // const router = useRouter();
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean | null>(false);
+  const [isLoading, setIsLoading] = useState<boolean | null>(false);
   const [error, setError] = useState("");
   const togglePasswordVisibility = () => {
-    setShowPassword((prev: any) => !prev);
+    setShowPassword((prev: boolean | null) => !prev);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

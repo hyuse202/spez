@@ -1,15 +1,15 @@
 "use client"
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 // Dynamically import SunEditor to avoid SSR issues
-const DynamicSunEditor = dynamic(() => import('suneditor-react'), {
-  ssr: false,
-});
+// const DynamicSunEditor = dynamic(() => import('suneditor-react'), {
+//   ssr: false,
+// });
 
 export default function PostForm () {
   const [content, setContent] = useState<string>('');
@@ -22,7 +22,7 @@ export default function PostForm () {
 
     try {
       // Send a POST request to your FastAPI backend
-      let token: any
+      let token: string | null
       if (typeof window !== 'undefined')
         token = localStorage.getItem('jwt')
       if(token === undefined)

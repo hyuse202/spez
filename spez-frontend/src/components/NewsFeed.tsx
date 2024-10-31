@@ -1,6 +1,6 @@
 import svPost from "@/utils/svPost"
 import Post from "./Post";
-
+import { IPost } from "@/types";
 export default async function NewsFeed() {
     const {getAllPost} =  svPost();
     const AllPost = await getAllPost();
@@ -11,13 +11,15 @@ export default async function NewsFeed() {
                 <div className=" flex flex-col items-center gap-8">
 
                 {
-                    AllPost?.map((post:any) => (
+                    AllPost?.map((post: IPost) => (
                         <Post
+                        key={post.id}
                         id = {post.id}
                         title = {post.title}
                         content = {post.content}
                         author = {post.author}
-                        date = {post.created_at}
+                        created_at = {post.created_at}
+                        updated_at= {post.updated_at}
                         />
                     )
                     )

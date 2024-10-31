@@ -9,22 +9,26 @@ import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import axios from "axios";
 import { GoTrash } from "react-icons/go";
+import { IPost, IComment } from "@/types";
 type Props = {
   params: { id: string };
 };
+interface getILike{
+  like: number
+}
 export default async function Post({ params }: Props) {
   const id: string = params.id;
   const { getPost, getLike, getComment, delPost } = svPost();
 
-  const info: any = await getPost(id);
-  const likes: any = await getLike(id);
-  const comment: any = await getComment(id);
+  const info: IPost = await getPost(id);
+  const likes: getILike = await getLike(id);
+  const comment: IComment[] = await getComment(id);
   const author_url = "/user/" + info.author.id;
   const handleLikeButton = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       // Send a POST request to your FastAPI backend
-      let token: any
+      let token: string | null
       if (typeof window !== 'undefined')
         token = localStorage.getItem('jwt')
       await axios.post(`http://localhost:8000/likes/?post_id=${id}`, 
@@ -43,11 +47,11 @@ export default async function Post({ params }: Props) {
       alert('Failed to create like.');
     }
   };
-  const handleDelPost = async (e: React.FormEvent) => {
-    let token: any
+  const handleDelPost = async () => {
+    let token: string | null
     if (typeof window !== 'undefined')
       token = localStorage.getItem('jwt')
-    const deletePost:any = await delPost(id, token);
+    const deletePost:string = await delPost(id, token);
     console.log(deletePost)
     
   }
@@ -73,7 +77,7 @@ export default async function Post({ params }: Props) {
                 alt = "eagle_img"
                 width={30}
                 height={50} />
-              <p className="pt-[0.35rem]">: {likes} </p>
+              <p className="pt-[0.35rem]">: {likes.like} </p>
             </button>
             <div className="w-auto mt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Phản hồi: {comment.length}</div>
           </div>
@@ -81,13 +85,15 @@ export default async function Post({ params }: Props) {
         </div>
         <div className="border-2 border-slate-950 p-2 text-black rounded shadow h-full w-1/2 space-y-5">
         <a className="font-bold text-2xl">Bình Loạn</a>
-          {comment.map((e: any) => (
+          {comment.map((element: IComment) => (
             <Comment
-                // author_id = {comment.author}
-                id = {e.id}
-                author = {e.author}
-                content= {e.content}
-                date = {e.created_at}
+              key={element.id}
+                id = {element.id}
+                author = {element.author}
+                content= {element.content}
+                created_at = {element.created_at}
+                updated_at= {element.updated_at}
+                post_id= {element.post_id}
             />
           ))}
         </div>

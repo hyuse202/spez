@@ -1,4 +1,4 @@
-export function getRelativeTime(date: any) {
+export function getRelativeTime(date: string) {
   const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
   const now = new Date();

@@ -1,5 +1,5 @@
 import React from "react";
-import useUser from "@/utils/svUser";
+import svUser from "@/utils/svUser";
 import ImageUploader from "@/components/ImgUpload";
 import ImageFromBase64 from "@/components/DisplayImg";
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 };
 export default async function User({ params }: Props) {
   const id: string = params.id;
-  const { getUser, getUsrProfile } = useUser();
+  const { getUser, getUsrProfile } = svUser();
   const usr = await getUser(id);
   const usrprofile = await getUsrProfile(id);
   return (
