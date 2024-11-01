@@ -1,6 +1,5 @@
 // components/LikeButton.tsx
 import React, { useState } from "react";
-import axios from "axios";
 import Image from "next/image";
 import EagleEmoji from "../../public/eagle_emoji.png";
 import svPost from "@/utils/svPost";

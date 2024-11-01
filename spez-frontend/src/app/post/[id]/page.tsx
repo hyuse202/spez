@@ -3,7 +3,6 @@ import svPost from "@/utils/svPost";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Parser from 'html-react-parser'
-import Image from "next/image";
 import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import { GoTrash } from "react-icons/go";
