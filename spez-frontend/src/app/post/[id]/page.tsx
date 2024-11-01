@@ -4,56 +4,31 @@ import Link from "next/link";
 import Comment from "@/components/Comment";
 import Parser from 'html-react-parser'
 import Image from "next/image";
-import EagleEmoji from '../../../../public/eagle_emoji.png'
 import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
-import axios from "axios";
 import { GoTrash } from "react-icons/go";
 import { IPost, IComment } from "@/types";
+import LikeButton from "@/components/LikeButton";
 type Props = {
   params: { id: string };
 };
-interface getILike{
-  like: number
-}
+// interface getILike{
+//   like: number
+// }
 export default async function Post({ params }: Props) {
   const id: string = params.id;
   const { getPost, getLike, getComment, delPost } = svPost();
 
   const info: IPost = await getPost(id);
-  const likes: getILike = await getLike(id);
+  const likes: number = await getLike(id);
+  console.log(likes)
   const comment: IComment[] = await getComment(id);
   const author_url = "/user/" + info.author.id;
-  const handleLikeButton = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      // Send a POST request to your FastAPI backend
-      let token: string | null = null
-      if (typeof window !== 'undefined')
-        token = localStorage.getItem('jwt')
-      await axios.post(`http://localhost:8000/likes/?post_id=${id}`, 
-        {
-          headers: {
-            'accept': 'application/json',
-            /* eslint-disable @typescript-eslint/no-use-before-define */
-            'Authorization': `Bearer ${token}`
-          }
-        }
-      );
-      
-      // Redirect or give feedback upon success
-      // alert('Post created successfully!');
-    } catch (error) {
-      console.error('Error posting data:', error);
-      alert('Failed to create like.');
-    }
-  };
   const handleDelPost = async () => {
     let token: string | null = null
     if (typeof window !== 'undefined')
       token = localStorage.getItem('jwt')
-    const deletePost:string = await delPost(id, token);
-    console.log(deletePost)
+     await delPost(id, token);
     
   }
   return (
@@ -71,17 +46,9 @@ export default async function Post({ params }: Props) {
           <div className="pl-2 text-2xl font-bold">{info.title}</div>
           <div className="p-2">{Parser(info.content)}</div>
           <div className="flex flex-row">
-            <button onClick={handleLikeButton} className="w-auto flex flex-row border-2 border-black rounded-full px-2">
-            <p className="pt-[0.35rem]"> Ưng</p>
-              <Image
-                src={EagleEmoji}
-                alt = "eagle_img"
-                width={30}
-                height={50} />
-              <p className="pt-[0.35rem]">: {likes.like} </p>
-            </button>
+              <LikeButton initialLikes={likes} post_id={id} />
             <div className="w-auto mt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Phản hồi: {comment.length}</div>
-          </div>
+          </div> 
           <CmtForm postId={id} />
         </div>
         <div className="border-2 border-slate-950 p-2 text-black rounded shadow h-full w-1/2 space-y-5">

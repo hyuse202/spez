@@ -58,12 +58,30 @@ export default function svPost() {
     });
     return data;
   }
+  async function postLike(id: string, token: string | null) {
+     return await axios.post(API.like + "/" + id, {},{
+      headers: {
+        accept: "application/json",     
+        Authorization: `Bearer ${token}`
+      }
+    }) 
+  }
+  async function delLike(id: string, token: string | null) {
+     return await axios.delete(API.like + "/" + id, {
+      headers: {
+        // accept: "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+  }
   return {
     getAllPost,
     getPost,
     getLike,
     getComment,
     delPost,
-    delComment
+    delComment,
+    postLike,
+    delLike
   };
 }
