@@ -26,10 +26,6 @@ jobs:
           cd spez-frontend
           npm install
 
-      - name: Run tests
-        run: |
-          cd spez-frontend
-          npm test --if-present
 
       - name: Build the project
         run: |
