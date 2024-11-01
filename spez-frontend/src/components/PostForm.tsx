@@ -22,12 +22,11 @@ export default function PostForm () {
 
     try {
       // Send a POST request to your FastAPI backend
-      let token: string | null
+      let token: string | null = null
       if (typeof window !== 'undefined')
         token = localStorage.getItem('jwt')
       if(token === undefined)
         router.push('/')
-      console.log(token)
       await axios.post('http://localhost:8000/posts/', 
         {
 

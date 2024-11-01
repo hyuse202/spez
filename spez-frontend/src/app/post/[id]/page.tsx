@@ -28,13 +28,14 @@ export default async function Post({ params }: Props) {
     e.preventDefault();
     try {
       // Send a POST request to your FastAPI backend
-      let token: string | null
+      let token: string | null = null
       if (typeof window !== 'undefined')
         token = localStorage.getItem('jwt')
       await axios.post(`http://localhost:8000/likes/?post_id=${id}`, 
         {
           headers: {
             'accept': 'application/json',
+            /* eslint-disable @typescript-eslint/no-use-before-define */
             'Authorization': `Bearer ${token}`
           }
         }
@@ -48,7 +49,7 @@ export default async function Post({ params }: Props) {
     }
   };
   const handleDelPost = async () => {
-    let token: string | null
+    let token: string | null = null
     if (typeof window !== 'undefined')
       token = localStorage.getItem('jwt')
     const deletePost:string = await delPost(id, token);

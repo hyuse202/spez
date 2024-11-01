@@ -8,7 +8,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean | null>(false);
-  const [isLoading, setIsLoading] = useState<boolean | null>(false);
+  const [isLoading, setIsLoading] = useState<boolean | undefined>(false);
   const [error, setError] = useState("");
   const togglePasswordVisibility = () => {
     setShowPassword((prev: boolean | null) => !prev);

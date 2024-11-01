@@ -23,7 +23,7 @@ function ImageUploader({ userId }: ImgUploadProps) {
 
   const handleSubmit = async () => {
     try {
-      let token: string | null
+      let token: string | null = null
       if (typeof window !== undefined) token = localStorage.getItem("jwt");
       const response = await updUsrProfile(userId, token, base64Image);
       const data = await response.json();

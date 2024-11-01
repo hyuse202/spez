@@ -9,7 +9,7 @@ export default async function Comment({id, author, content, created_at}: ICommen
   const usr_url = "/user/" + author.id;
   const { delComment } = await svPost();
   const handleDelCmt = async () => {
-    let token: string | null;
+    let token: string | null = null;
     if (typeof window !== "undefined") token = localStorage.getItem("jwt");
     await delComment(id, token);
   };

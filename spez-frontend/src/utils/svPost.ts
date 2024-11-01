@@ -24,14 +24,14 @@ export default function svPost() {
     });
     return data.data;
   }
-  async function delPost(id: string, token: string) {
+  async function delPost(id: string, token: string | null) {
     const data = await axios.delete(API.post + id, {
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    return data;
+    return data.data;
   }
   async function getLike(id: string) {
     const data = await axios.get(API.like + "/post/" + id, {
@@ -49,7 +49,7 @@ export default function svPost() {
     });
     return data.data;
   }
-  async function delComment(id: string, token: string) {
+  async function delComment(id: string, token: string | null) {
     const data = await axios.delete(BE_URI + "/comments/" + id, {
       headers: {
         accept: "application/json",
