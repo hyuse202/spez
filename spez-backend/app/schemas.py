@@ -96,7 +96,7 @@ class LikeOut(BaseModel):
     id: int
     user_id: int
     post_id: Optional[int]
-    comment_id: Optional[int]
+    # comment_id: Optional[int]
     created_at: datetime
 
     class Config:

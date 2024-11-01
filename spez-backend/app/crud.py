@@ -96,12 +96,13 @@ def create_like(db: Session, post_id, user_id: int) -> models.Like:
     db.refresh(db_like)
     return db_like
 
-def delete_like(db: Session, like_id: int):
-    db_like = db.query(models.Like).filter(models.Like.id == like_id).first()
+def delete_like(db: Session, post_id: int, user_id: int):
+    db_like = db.query(models.Like).filter(models.Like.post_id == post_id ).filter(models.Like.user_id==user_id).first()
     if not db_like: 
         return None
     db.delete(db_like)
     db.commit()
+    return 
 
 def get_like_by_post(db: Session, post_id: int) -> Optional[models.Like]:
     return db.query(models.Like).filter(models.Like.post_id == post_id).count()

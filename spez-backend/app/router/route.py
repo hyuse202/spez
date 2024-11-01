@@ -141,8 +141,8 @@ def get_like_by_post(post_id: int, db: Session = Depends(get_db)):
     return db_item
 
 
-@router.post("/likes/", response_model=schemas.LikeOut, status_code=status.HTTP_201_CREATED)
-def create_like(post_id: int = 0, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+@router.post("/likes/{post_id}", status_code=status.HTTP_201_CREATED)
+def create_like(post_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     # Ensure that either post_id or comment_id is provided
     # if not like.post_id and not like.comment_id:
     #     raise HTTPException(status_code=400, detail="Either post_id or comment_id must be provided")
@@ -174,12 +174,12 @@ def create_like(post_id: int = 0, db: Session = Depends(get_db), current_user: m
     
     db_like = crud.create_like(db, post_id, current_user.id)
     return db_like
-@router.delete("/likes/{like_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_like(like_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+@router.delete("/likes/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_like(post_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     # db_like = db.query(models.Like).filter(models.Like.id == like_id).first()
     # if not db_like:
     #     raise HTTPException(status_code=404, detail="Like not found")
-    crud.delete_like(db, like_id)
+    crud.delete_like(db, post_id, current_user.id)
     return
 
 
