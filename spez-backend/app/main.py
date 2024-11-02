@@ -13,19 +13,20 @@ app = FastAPI(
     description="SPez app",
     version="0.2.0",
 )
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "http://localhost:8000"
-    # Add your frontend domain here
-]
-
+# origins = [
+#     "https://spez.hungnq.online/*",
+#     "http://localhost",
+#     "http://localhost:3000",
+#     "http://localhost:8000"
+#     # Add your frontend domain here
+# ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Allows all origins
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
 )
+
 # Include the items router
 app.include_router(route.router)

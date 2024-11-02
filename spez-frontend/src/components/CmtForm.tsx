@@ -28,7 +28,7 @@ export default function CmtForm({ postId }: Props) {
       if (token === undefined) router.push("/");
       // console.log(token)
       await axios.post(
-        `http://localhost:8000/posts/cmt/${postId}`,
+        `https://spezbe.hungnq.online/posts/cmt/${postId}`,
         {
           content: content,
         },

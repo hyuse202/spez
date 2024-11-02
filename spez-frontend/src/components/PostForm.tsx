@@ -27,7 +27,7 @@ export default function PostForm () {
         token = localStorage.getItem('jwt')
       if(token === undefined)
         router.push('/')
-      await axios.post('http://localhost:8000/posts/', 
+      await axios.post('https://spezbe.hungnq.online/posts/', 
         {
 
         title: title,

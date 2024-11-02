@@ -3,3 +3,4 @@ alembic/
 .env
 alembic.ini
 __pycache__/
+/myenv

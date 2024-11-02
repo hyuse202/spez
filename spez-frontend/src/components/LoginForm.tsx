@@ -24,7 +24,7 @@ export default function LoginForm() {
     // console.log(body)
     // API call to authenticate using x-www-form-urlencoded
     try {
-        const res = await fetch('http://localhost:8000/token', {
+        const res = await fetch('https://spezbe.hungnq.online/token', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
