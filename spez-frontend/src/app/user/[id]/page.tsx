@@ -1,5 +1,5 @@
 import React from "react";
-import svUser from "@/utils/svUser";
+import svUser from "@/services/svUser";
 import ImageUploader from "@/components/ImgUpload";
 import ImageFromBase64 from "@/components/DisplayImg";
 type Props = {

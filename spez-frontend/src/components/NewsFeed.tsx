@@ -1,10 +1,9 @@
-import svPost from "@/utils/svPost"
+import svPost from "@/services/svPost"
 import Post from "./Post";
 import { IPost } from "@/types";
 export default async function NewsFeed() {
     const {getAllPost} =  svPost();
     const AllPost = await getAllPost();
-    // console.log(AllPost)
     return (
         <>
             <div className="w-full h-screen p-8">

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // import dynamic from 'next/dynamic';
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
-import axios from "axios";
+import svCmt from "@/services/svCmt";
 import { useRouter } from "next/navigation";
 
 // Dynamically import SunEditor to avoid SSR issues
@@ -17,7 +17,7 @@ type Props = {
 export default function CmtForm({ postId }: Props) {
   const [content, setContent] = useState<string>("");
   const router = useRouter();
-
+  const {createComment} = svCmt()
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +27,7 @@ export default function CmtForm({ postId }: Props) {
       if (typeof window !== "undefined") token = localStorage.getItem("jwt");
       if (token === undefined) router.push("/");
       // console.log(token)
+<<<<<<< HEAD
       await axios.post(
         `https://spezbe.hungnq.online/posts/cmt/${postId}`,
         {
@@ -40,6 +41,9 @@ export default function CmtForm({ postId }: Props) {
         }
       );
 
+=======
+      await createComment(postId, token, content)
+>>>>>>> 5a06110 (chore(fe): split service)
       // Redirect or give feedback upon success
       alert("Post created successfully!");
     } catch (error) {

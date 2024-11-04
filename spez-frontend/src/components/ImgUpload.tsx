@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import svUser from "@/utils/svUser";
+import svUser from "@/services/svUser";
 interface ImgUploadProps {
   userId: string;
 }
@@ -15,7 +15,7 @@ function ImageUploader({ userId }: ImgUploadProps) {
         const base64String = reader.result? reader.result.toString().split(",")[1]: null
         setBase64Image(base64String);
         // You can also send the base64 string to the server here if needed
-        console.log("Base64 Image String:", base64String);
+        // console.log("Base64 Image String:", base64String);
       };
       reader.readAsDataURL(file);
     }

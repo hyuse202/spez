@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import EagleEmoji from "../../public/eagle_emoji.png";
-import svPost from "@/utils/svPost";
+import svLike from "@/services/svLike";
 interface LikeButtonProps {
   initialLikes: number;
   post_id: string
@@ -11,7 +11,7 @@ interface LikeButtonProps {
 const  LikeButton: React.FC<LikeButtonProps> = ({ initialLikes, post_id }) => {
   const [likes, setLikes] = useState<number>(initialLikes);
   const [liked, setLiked] = useState(false);
-  const {postLike, delLike} = svPost()
+  const {postLike, delLike} = svLike()
 
   const handleLike = async () => {
     try {

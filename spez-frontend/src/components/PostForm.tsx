@@ -5,7 +5,7 @@ import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
+import svPost from '@/services/svPost';
 // Dynamically import SunEditor to avoid SSR issues
 // const DynamicSunEditor = dynamic(() => import('suneditor-react'), {
 //   ssr: false,
@@ -15,18 +15,18 @@ export default function PostForm () {
   const [content, setContent] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const router = useRouter();
-
+  const {createPost} = svPost()
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      // Send a POST request to your FastAPI backend
       let token: string | null = null
       if (typeof window !== 'undefined')
         token = localStorage.getItem('jwt')
       if(token === undefined)
         router.push('/')
+<<<<<<< HEAD
       await axios.post('https://spezbe.hungnq.online/posts/', 
         {
 
@@ -41,6 +41,9 @@ export default function PostForm () {
       }
     );
 
+=======
+      await createPost(title, content, token)
+>>>>>>> 5a06110 (chore(fe): split service)
       // Redirect or give feedback upon success
       alert('Post created successfully!');
       router.push('/');  // Redirect to the homepage or a posts page
@@ -70,6 +73,7 @@ export default function PostForm () {
         <div className="mb-4">
           <label htmlFor="content" className="block mb-2">Content</label>
           <SunEditor
+            
             setContents={content}
             onChange={(value: string) => setContent(value)}
             setOptions={{

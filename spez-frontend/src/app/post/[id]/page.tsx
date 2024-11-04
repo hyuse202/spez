@@ -1,5 +1,10 @@
 "use client"
+<<<<<<< HEAD
 import svPost from "../../../utils/svPost"
+=======
+import svPost from "@/services/svPost";
+import svCmt from "@/services/svCmt";
+>>>>>>> 5a06110 (chore(fe): split service)
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Parser from 'html-react-parser'
@@ -9,12 +14,19 @@ import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import axios from "axios";
 import { GoTrash } from "react-icons/go";
+<<<<<<< HEAD
 import { useEffect } from "react";
+=======
+import { IPost, IComment } from "@/types";
+import LikeButton from "@/components/LikeButton";
+import svLike from "@/services/svLike";
+>>>>>>> 5a06110 (chore(fe): split service)
 type Props = {
   params: { id: string };
 };
 export default async function Post({ params }: Props) {
   const id: string = params.id;
+<<<<<<< HEAD
   const { getPost, getLike, getComment, delPost } = await svPost();
   useEffect(aysnc () => {
     const info: any = await getPost(id);
@@ -48,6 +60,18 @@ export default async function Post({ params }: Props) {
   };
   const handleDelPost = async (e: React.FormEvent) => {
     let token: any
+=======
+  const { getPost, delPost } = svPost();
+  const {getLike} = svLike();
+  const {getComment} = svCmt()
+  const info: IPost = await getPost(id);
+  const likes: number = await getLike(id);
+  console.log(likes)
+  const comment: IComment[] = await getComment(id);
+  const author_url = "/user/" + info.author.id;
+  const handleDelPost = async () => {
+    let token: string | null = null
+>>>>>>> 5a06110 (chore(fe): split service)
     if (typeof window !== 'undefined')
       token = localStorage.getItem('jwt')
     const deletePost:any = await delPost(id, token);

@@ -1,13 +1,13 @@
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import Link from "next/link";
 import Parser from "html-react-parser";
-import svPost from "@/utils/svPost";
 import { GoTrash } from "react-icons/go";
 import { IComment } from "@/types";
+import svCmt from "@/services/svCmt";
   
 export default async function Comment({id, author, content, created_at}: IComment) {
   const usr_url = "/user/" + author.id;
-  const { delComment } = await svPost();
+  const { delComment } = await svCmt();
   const handleDelCmt = async () => {
     let token: string | null = null;
     if (typeof window !== "undefined") token = localStorage.getItem("jwt");
