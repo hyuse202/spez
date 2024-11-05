@@ -10,22 +10,30 @@ import { GoTrash } from "react-icons/go";
 import { IPost, IComment } from "@/types";
 import LikeButton from "@/components/LikeButton";
 import svLike from "@/services/svLike";
+import { useEffect, useState } from "react";
 type Props = {
   params: { id: string };
 };
-// interface getILike{
-//   like: number
-// }
-export default async function Post({ params }: Props) {
+export default function Post({ params }: Props) {
+  const [info, setInfo] = useState<IPost>()
+  const [likes, setLikes] = useState<number | null>(null)
+  const [comment, setComments] = useState<IComment[] | undefined>()
   const id: string = params.id;
   const { getPost, delPost } = svPost();
   const {getComment} = svCmt();
   const {getLike} = svLike()
-  const info: IPost = await getPost(id);
-  const likes: number = await getLike(id);
-  console.log(likes)
-  const comment: IComment[] = await getComment(id);
-  const author_url = "/user/" + info.author.id;
+  useEffect(() => {
+    async function fetching () {
+      let res = await getPost(id);
+      setInfo(res)
+      res = await getLike(id);
+      setLikes(res);
+      res = await getComment(id);
+      setComments(res);
+    }
+    fetching()
+  }, [])
+  const author_url = "/user/" + info?.author.id;
   const handleDelPost = async () => {
     let token: string | null = null
     if (typeof window !== 'undefined')
@@ -40,22 +48,22 @@ export default async function Post({ params }: Props) {
           <div className="pl-10 flex flex-row justify-between">
             <div className="w-auto">
 
-            <Link href={author_url} className="font-semibold"> {info.author.username}</Link>
-            {"     "} {getRelativeTime(info.created_at)}
+            <Link href={author_url} className="font-semibold"> {info?.author.username}</Link>
+            {"     "} { info?.created_at? getRelativeTime(info?.created_at) : null }
             </div>
             <button onClick={handleDelPost} className="mr-8 text-red-600 text-semibold"> <GoTrash /></button>
           </div>
-          <div className="pl-2 text-2xl font-bold">{info.title}</div>
-          <div className="p-2">{Parser(info.content)}</div>
+          <div className="pl-2 text-2xl font-bold">{info?.title}</div>
+          <div className="p-2">{ info?.content ? Parser(info?.content) : null}</div>
           <div className="flex flex-row">
               <LikeButton initialLikes={likes} post_id={id} />
-            <div className="w-auto mt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Phản hồi: {comment.length}</div>
+            <div className="w-auto mt-[0.35rem] ml-5 border-2 rounded-full px-2 border-black">Phản hồi: {comment?.length}</div>
           </div> 
           <CmtForm postId={id} />
         </div>
         <div className="border-2 border-slate-950 p-2 text-black rounded shadow h-full w-1/2 space-y-5">
         <a className="font-bold text-2xl">Bình Loạn</a>
-          {comment.map((element: IComment) => (
+          {comment?.map((element: IComment) => (
             <Comment
               key={element.id}
                 id = {element.id}

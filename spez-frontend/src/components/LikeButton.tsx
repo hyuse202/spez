@@ -1,15 +1,16 @@
 // components/LikeButton.tsx
+"use client"
 import React, { useState } from "react";
 import Image from "next/image";
 import EagleEmoji from "../../public/eagle_emoji.png";
 import svLike from "@/services/svLike";
 interface LikeButtonProps {
-  initialLikes: number;
+  initialLikes: number | null;
   post_id: string
 }
 
 const  LikeButton: React.FC<LikeButtonProps> = ({ initialLikes, post_id }) => {
-  const [likes, setLikes] = useState<number>(initialLikes);
+  const [likes, setLikes] = useState<number | null>(initialLikes);
   const [liked, setLiked] = useState(false);
   const {postLike, delLike} = svLike()
 
@@ -21,7 +22,7 @@ const  LikeButton: React.FC<LikeButtonProps> = ({ initialLikes, post_id }) => {
       const response = liked? await postLike(post_id, token) : await delLike(post_id, token);
       if (response.status == 201 || response.status == 204) {
         setLiked(!liked);
-        setLikes((prev) => (liked ? prev - 1 : prev + 1));
+        setLikes((prev) => (prev ?  (liked? (prev - 1) : (prev + 1)) : null ))
       }
       
     } catch (error) {
