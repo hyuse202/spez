@@ -27,23 +27,7 @@ export default function CmtForm({ postId }: Props) {
       if (typeof window !== "undefined") token = localStorage.getItem("jwt");
       if (token === undefined) router.push("/");
       // console.log(token)
-<<<<<<< HEAD
-      await axios.post(
-        `https://spezbe.hungnq.online/posts/cmt/${postId}`,
-        {
-          content: content,
-        },
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-=======
       await createComment(postId, token, content)
->>>>>>> 5a06110 (chore(fe): split service)
       // Redirect or give feedback upon success
       alert("Post created successfully!");
     } catch (error) {

@@ -1,6 +1,5 @@
 import { BE_URI } from "@/utils/constants";
 import axios from "axios";
-import { headers } from "next/headers";
 export default function svPost() {
   const API = {
     all: BE_URI + "/posts",

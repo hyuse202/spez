@@ -1,15 +1,14 @@
 "use client";
 import { useState, FormEvent } from "react";
 import LoadingSingle from "@/components/LoadingSingle";
-// import { useRouter } from "next/navigation";
-
+import svAuth from "@/services/svAuth";
 export default function LoginForm() {
-  // const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean | null>(false);
   const [isLoading, setIsLoading] = useState<boolean | undefined>(false);
   const [error, setError] = useState("");
+  const {authenticate} = svAuth();
   const togglePasswordVisibility = () => {
     setShowPassword((prev: boolean | null) => !prev);
   };
@@ -24,13 +23,7 @@ export default function LoginForm() {
     // console.log(body)
     // API call to authenticate using x-www-form-urlencoded
     try {
-        const res = await fetch('https://spezbe.hungnq.online/token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: body.toString(),
-        });
+        const res = await authenticate(body.toString())
 
         if (!res.ok) {
           const errorData = await res.json();
