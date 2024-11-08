@@ -20,7 +20,7 @@ export default function LoginForm() {
     const body = new URLSearchParams();
     body.append('username', username);
     body.append('password', password);
-    // console.log(body)
+    console.log(body)
     // API call to authenticate using x-www-form-urlencoded
     try {
         const res = await authenticate(body.toString())

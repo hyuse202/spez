@@ -1,0 +1,40 @@
+
+version: "3.8"
+
+services:
+  fast-api:
+    build: 
+      context: ./spez-backend
+    container_name: spezbe
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=
+      - SECRET_KEY=
+    depends_on:
+      - db
+  nextjs:
+    build:
+      context: ./spez-frontend
+    container_name: spezfe
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SERVER_URL= 
+    depends_on:
+      - fast-api
+  db:
+    image: postgres:14
+    container_name: spez
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=
+    ports:
+      - "5433:5433"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
