@@ -1,9 +1,9 @@
 import axios from "axios"
 import { BE_URI } from "@/utils/constants"
-export default function svLike(){
-    const API = {
-        like: BE_URI + "/likes"
-    }
+const API = {
+    like: BE_URI + "/likes"
+}
+export const svLike = () => {
   async function postLike(id: string, token: string | null) {
      return await axios.post(API.like + "/" + id, {},{
       headers: {
@@ -32,6 +32,8 @@ export default function svLike(){
   return {
     postLike,
     delLike,
-    getLike,
   }
 }
+export const getLikes = async (id: string) => 
+  await axios.get(API.like + "/post/" + id)
+  .then((res) => res.data)

@@ -3,13 +3,9 @@ import React, { useState } from "react";
 // import dynamic from 'next/dynamic';
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
-import svCmt from "@/services/svCmt";
+import {svCmt} from "@/services/svCmt";
 import { useRouter } from "next/navigation";
 
-// Dynamically import SunEditor to avoid SSR issues
-// const DynamicSunEditor = dynamic(() => import('suneditor-react'), {
-//   ssr: false,
-// });
 
 type Props = {
   postId: string;

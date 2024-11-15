@@ -4,11 +4,7 @@ import React, { useState } from 'react';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import { useRouter } from 'next/navigation';
-import svPost from '@/services/svPost';
-// Dynamically import SunEditor to avoid SSR issues
-// const DynamicSunEditor = dynamic(() => import('suneditor-react'), {
-//   ssr: false,
-// });
+import {svPost} from '@/services/svPost';
 
 export default function PostForm () {
   const [content, setContent] = useState<string>('');

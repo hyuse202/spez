@@ -1,9 +1,9 @@
 import axios from "axios";
 import { BE_URI } from "@/utils/constants";
-export default function svCmt() {
-  const API = {
-    comments: BE_URI + "/posts/cmt/",
-  };
+const API = {
+  comments: BE_URI + "/posts/cmt/",
+};
+export const svCmt = () => {
   async function getComment(id: string) {
     const data = await axios.get(API.comments + id, {
       headers: {
@@ -41,3 +41,5 @@ export default function svCmt() {
     createComment
   };
 }
+export const getComments = async(id: string) =>
+  await axios.get(API.comments + id).then((res) => res.data)

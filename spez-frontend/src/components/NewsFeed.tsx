@@ -1,23 +1,16 @@
 "use client";
-import svPost from "@/services/svPost";
+// import svPost from "@/services/svPost";
 import Post from "./Post";
 import { IPost } from "@/types";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+import usePosts from "@/hooks/usePosts";
 export default function NewsFeed() {
-  const [AllPost, setAllPost] = useState<IPost[] | null>();
-  const { getAllPost } = svPost();
-  useEffect(() => {
-    async function fetching() {
-      const res = await getAllPost();
-      setAllPost(res);
-    }
-    fetching();
-  });
+  const {posts, isLoading} = usePosts()
   return (
     <>
       <div className="w-full h-screen p-8">
         <div className=" flex flex-col items-center gap-8">
-          {AllPost?.map((post: IPost) => (
+          {posts?.map((post: IPost) => (
             <Post
               key={post.id}
               id={post.id}
