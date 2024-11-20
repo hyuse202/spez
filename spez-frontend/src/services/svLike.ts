@@ -21,14 +21,6 @@ export const svLike = () => {
     })
   }
 
-  async function getLike(id: string) {
-    const data = await axios.get(API.like + "/post/" + id, {
-      headers: {
-        accept: "application/json",
-      },
-    });
-    return data.data;
-  }
   return {
     postLike,
     delLike,

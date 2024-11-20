@@ -20,7 +20,7 @@ export default function LoginForm() {
     const body = new URLSearchParams();
     body.append('username', username);
     body.append('password', password);
-    console.log(body)
+    // console.log(body)
     // API call to authenticate using x-www-form-urlencoded
     try {
         const res = await authenticate(body.toString())
@@ -33,7 +33,7 @@ export default function LoginForm() {
 
         const data = await res.json();
         // Assuming the API returns the JWT token in the response
-        console.log(data)
+        // console.log(data)
         if (data.access_token) {
           // Store JWT in localStorage (or cookies for security-sensitive applications)
           localStorage.setItem('jwt', data.access_token);

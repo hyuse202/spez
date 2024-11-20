@@ -6,7 +6,8 @@ import Parser from 'html-react-parser'
 import CmtForm from "@/components/CmtForm";
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import { GoTrash } from "react-icons/go";
-import { IPost, IComment } from "@/types";
+// import { IPost, IComment } from "@/types";
+import { IComment } from "@/types";
 import LikeButton from "@/components/LikeButton";
 // import svLike from "@/services/svLike";
 import { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ type Props = {
 };
 export default function Post({ params }: Props) {
   const id: string = params.id;
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   const {post, isLoadingInfo} = usePost(id)
   const {Comments, isLoadingComments} = useComments(id)
   const {Likes, isLoadingLikes} = useLikes(id)
@@ -29,6 +31,8 @@ export default function Post({ params }: Props) {
       token = localStorage.getItem('jwt')
      await delPost(id, token);
   }
+  const Cmts: IComment[] = Comments as IComment[]
+  // console.log(post)
   return (
     <>
       <div className="w-full p-8 flex flex-col justify-center items-center space-y-2">
@@ -51,7 +55,8 @@ export default function Post({ params }: Props) {
         </div>
         <div className="border-2 border-slate-950 p-2 text-black rounded shadow h-full w-1/2 space-y-5">
         <a className="font-bold text-2xl">Bình Loạn</a>
-          {Comments?.map((element: IComment) => (
+          {/* {
+          Cmts?.map((element: IComment) => (
             <Comment
               key={element.id}
                 id = {element.id}
@@ -61,7 +66,7 @@ export default function Post({ params }: Props) {
                 updated_at= {element.updated_at}
                 post_id= {element.post_id}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     </>

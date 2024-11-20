@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import EagleEmoji from "../../public/eagle_emoji.png";
-import svLike from "@/services/svLike";
+import {svLike} from "@/services/svLike";
 interface LikeButtonProps {
   initialLikes: number | null;
   post_id: string

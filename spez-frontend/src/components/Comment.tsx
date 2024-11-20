@@ -3,7 +3,7 @@ import Link from "next/link";
 import Parser from "html-react-parser";
 import { GoTrash } from "react-icons/go";
 import { IComment } from "@/types";
-import svCmt from "@/services/svCmt";
+import {svCmt} from "@/services/svCmt";
   
 export default async function Comment({id, author, content, created_at}: IComment) {
   const usr_url = "/user/" + author.id;
